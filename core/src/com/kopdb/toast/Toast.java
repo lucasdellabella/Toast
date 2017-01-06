@@ -3,6 +3,7 @@ package com.kopdb.toast;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -15,6 +16,8 @@ public class Toast implements Disposable
     private BodyDef bodyDef;
     private PolygonShape shape;
     private Body body;
+    private Vector2 moveTarget;
+    private Vector2 touchOffset;
 
     public Toast(Texture texture) {
 
@@ -29,11 +32,39 @@ public class Toast implements Disposable
     }
 
     public void update() {
-        getSprite().setPosition(getBody().getPosition().x, getBody().getPosition().y);
+        sprite.setPosition(getBody().getPosition().x, getBody().getPosition().y);
+
+        if (moveTarget != null) {
+            Vector2 newPos = body.getPosition().lerp(moveTarget, 0.1f);
+            body.setTransform(newPos.x, newPos.y, body.getAngle());
+        }
     }
 
     public void draw(SpriteBatch batch) {
         sprite.draw(batch);
+    }
+
+    public void checkTouchDown(int x, int y) {
+        if (sprite.getBoundingRectangle().contains(x, y)) {
+            touchOffset = body.getPosition().cpy().sub(x, y);
+            moveTarget = new Vector2(x + touchOffset.x, y + touchOffset.y);
+            body.setLinearVelocity(0, 0);
+            body.setType(BodyDef.BodyType.KinematicBody);
+        }
+    }
+
+    // TODO: use pointers to handle drag off and release?
+    public void checkTouchUp(int x, int y) {
+        if (sprite.getBoundingRectangle().contains(x, y)) {
+            moveTarget = null;
+            body.setType(BodyDef.BodyType.DynamicBody);
+        }
+    }
+
+    public void checkTouchDragged(int x, int y) {
+        if (sprite.getBoundingRectangle().contains(x, y)) {
+            moveTarget = new Vector2(x + touchOffset.x, y + touchOffset.y);
+        }
     }
 
     public Sprite getSprite() {
@@ -60,4 +91,6 @@ public class Toast implements Disposable
     public void dispose() {
         sprite.getTexture().dispose();
     }
+
+
 }

@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kopdb.toast.*;
+import com.kopdb.toast.Input.ToastInputAdapter;
 
 /**
  * Created by Richard on 1/5/2017.
@@ -50,6 +51,8 @@ public class GameScreen implements Screen {
         toasts = new Array<Toast>();
 
         addToast(new Texture(Gdx.files.internal("badlogic.jpg")));
+
+        Gdx.input.setInputProcessor(new ToastInputAdapter(toasts));
     }
 
     @Override
