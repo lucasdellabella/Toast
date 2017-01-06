@@ -11,14 +11,14 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.kopdb.toast.Screens.GameScreen;
 
 public class ToastGame extends Game {
-	SpriteBatch batch;
-	World world;
-	
+	public SpriteBatch batch;
+	public World world;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		world = new World(new Vector2(0, -98f), true);
-		this.setScreen(new GameScreen(batch, world));
+		this.setScreen(new GameScreen(this));
 	}
 	
 	@Override

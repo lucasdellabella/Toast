@@ -1,6 +1,7 @@
 package com.kopdb.toast.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,21 +17,33 @@ import com.kopdb.toast.*;
  */
 
 public class GameScreen implements Screen {
+
+    private final ToastGame game;
+
     SpriteBatch spriteBatch;
     World physicsWorld;
     Sprite toaster;
-
     Array<Toast> toasts;
 
-    int frames=0;
+    int frames = 0;
 
-    public GameScreen(SpriteBatch batch, World world)
+    public GameScreen(ToastGame game)
     {
-        spriteBatch = batch;
-        physicsWorld = world;
-        toaster = new Sprite();
-        toaster.setPosition(40,40);
-        toaster.setTexture(new Texture(Gdx.files.internal("toaster.jpg")));
+        this.game = game;
+        spriteBatch = game.batch;
+        physicsWorld = game.world;
+        toaster = new Sprite(new Texture(Gdx.files.internal("toaster.jpg")));
+
+        // Position toaster
+        float toasterHWRatio = ((float) toaster.getTexture().getHeight())
+                / toaster.getTexture().getWidth();
+        float toasterWidth = Gdx.graphics.getWidth();
+        float toasterHeight = toasterWidth * toasterHWRatio;
+        toaster.setPosition(0, - (2f/3) * toasterHeight);
+        toaster.setSize(toasterWidth, toasterHeight);
+        toaster.setOriginCenter();
+        toaster.setScale(1.3f, 1.3f);
+        toaster.translateX(10);
 
         toasts = new Array<Toast>();
 
@@ -46,20 +59,23 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         frames++;
         float height = toaster.getTexture().getHeight() / toaster.getTexture().getWidth() * Gdx.graphics.getWidth() * 1.2f;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            game.setScreen(new GameScreen(game));
+        }
+
+        physicsWorld.step(delta,6,2);
+
+
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.begin();
-        spriteBatch.draw(toaster.getTexture(),
-                0,
-                60,
-                toaster.getTexture().getWidth(),//Gdx.graphics.getWidth() * 1.2f,
-                toaster.getTexture().getHeight());
-
-        physicsWorld.step(delta,6,2);
+        toaster.draw(spriteBatch);
 
         for (int i = 0; i < toasts.size; i++) {
             toasts.get(i).Render(spriteBatch);
         }
+
         spriteBatch.end();
 
         if (frames%100==0) {
