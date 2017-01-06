@@ -18,6 +18,9 @@ public class Toast implements Disposable
     private Body body;
     private Vector2 moveTarget;
     private Vector2 touchOffset;
+    private Vector2 lastTarget;
+    private long touchTime;
+    private long lastTouchTime;
 
     public Toast(Texture texture) {
 
@@ -32,10 +35,11 @@ public class Toast implements Disposable
     }
 
     public void update() {
-        sprite.setPosition(getBody().getPosition().x, getBody().getPosition().y);
+        sprite.setPosition(body.getPosition().x, body.getPosition().y);
+        sprite.setRotation(body.getAngle());
 
         if (moveTarget != null) {
-            Vector2 newPos = body.getPosition().lerp(moveTarget, 0.1f);
+            Vector2 newPos = body.getPosition().lerp(moveTarget, 0.2f);
             body.setTransform(newPos.x, newPos.y, body.getAngle());
         }
     }
@@ -48,6 +52,9 @@ public class Toast implements Disposable
         if (sprite.getBoundingRectangle().contains(x, y)) {
             touchOffset = body.getPosition().cpy().sub(x, y);
             moveTarget = new Vector2(x + touchOffset.x, y + touchOffset.y);
+            lastTarget = moveTarget;
+            lastTouchTime = 0;
+            touchTime = System.currentTimeMillis();
             body.setLinearVelocity(0, 0);
             body.setType(BodyDef.BodyType.KinematicBody);
         }
@@ -55,15 +62,21 @@ public class Toast implements Disposable
 
     // TODO: use pointers to handle drag off and release?
     public void checkTouchUp(int x, int y) {
-        if (sprite.getBoundingRectangle().contains(x, y)) {
-            moveTarget = null;
+        if (moveTarget != null) {
             body.setType(BodyDef.BodyType.DynamicBody);
+            Vector2 velocity = moveTarget.cpy().sub(lastTarget);
+            velocity.scl(10000 / (System.currentTimeMillis() - lastTouchTime));
+            body.setLinearVelocity(velocity);
+            moveTarget = null;
         }
     }
 
     public void checkTouchDragged(int x, int y) {
-        if (sprite.getBoundingRectangle().contains(x, y)) {
+        if (moveTarget != null) {
+            lastTarget = moveTarget;
             moveTarget = new Vector2(x + touchOffset.x, y + touchOffset.y);
+            lastTouchTime = touchTime;
+            touchTime = System.currentTimeMillis();
         }
     }
 
