@@ -3,13 +3,17 @@ package com.kopdb.toast.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kopdb.toast.*;
 
 /**
@@ -23,6 +27,8 @@ public class GameScreen implements Screen {
     SpriteBatch spriteBatch;
     World physicsWorld;
     Toaster toaster;
+    OrthographicCamera camera;
+    Viewport viewport;
     Array<Toast> toasts;
 
     int frames = 0;
@@ -32,6 +38,14 @@ public class GameScreen implements Screen {
         this.game = game;
         spriteBatch = game.batch;
         physicsWorld = game.world;
+
+        // Set up camera + viewport
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+        viewport.apply();
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+
         toaster = new Toaster(new Texture(Gdx.files.internal("toaster.jpg")));
         toasts = new Array<Toast>();
 
@@ -53,9 +67,16 @@ public class GameScreen implements Screen {
 
         physicsWorld.step(delta,6,2);
 
+        if (frames % 100==0) {
+            addToast(new Texture(Gdx.files.internal("badlogic.jpg")));
+        }
 
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        camera.update();
+        spriteBatch.setProjectionMatrix(camera.combined);
+
         spriteBatch.begin();
         toaster.draw(spriteBatch);
 
@@ -64,10 +85,6 @@ public class GameScreen implements Screen {
         }
 
         spriteBatch.end();
-
-        if (frames%100==0) {
-            addToast(new Texture(Gdx.files.internal("badlogic.jpg")));
-        }
     }
 
     @Override
