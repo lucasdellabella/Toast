@@ -6,15 +6,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.kopdb.toast.Screens.GameScreen;
 
 public class ToastGame extends Game {
 	SpriteBatch batch;
+	World world;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		this.setScreen(new GameScreen(batch));
+		world = new World(new Vector2(0, -98f), true);
+		this.setScreen(new GameScreen(batch, world));
 	}
 	
 	@Override
