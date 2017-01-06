@@ -4,11 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Disposable;
 
 /**
  * Created by Richard Kopelow on 1/5/2017.
  */
-public class Toast
+public class Toast implements Disposable
 {
     private Sprite sprite;
     private BodyDef bodyDef;
@@ -27,15 +28,11 @@ public class Toast
         getShape().setAsBox(getSprite().getWidth()/2, getSprite().getHeight()/2);
     }
 
-    public void Update()
-    {
-
+    public void update() {
+        getSprite().setPosition(getBody().getPosition().x, getBody().getPosition().y);
     }
 
-    public void Render(SpriteBatch batch)
-    {
-        getSprite().setPosition(getBody().getPosition().x, getBody().getPosition().y);
-        Update();
+    public void draw(SpriteBatch batch) {
         sprite.draw(batch);
     }
 
@@ -57,5 +54,10 @@ public class Toast
 
     public void setBody(Body body) {
         this.body = body;
+    }
+
+    @Override
+    public void dispose() {
+        sprite.getTexture().dispose();
     }
 }
