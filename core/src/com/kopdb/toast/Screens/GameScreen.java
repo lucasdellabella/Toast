@@ -53,6 +53,9 @@ public class GameScreen implements Screen {
 
         physicsWorld.step(delta,6,2);
 
+        for (int i = 0; i < toasts.size; i++) {
+            toasts.get(i).update();
+        }
 
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -60,7 +63,7 @@ public class GameScreen implements Screen {
         toaster.draw(spriteBatch);
 
         for (int i = 0; i < toasts.size; i++) {
-            toasts.get(i).Render(spriteBatch);
+            toasts.get(i).draw(spriteBatch);
         }
 
         spriteBatch.end();
@@ -92,7 +95,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        for (int i = 0; i < toasts.size; i++) {
+            destroyToast(toasts.get(i));
+        }
     }
 
     private Toast addToast(Texture texture)
@@ -113,6 +118,7 @@ public class GameScreen implements Screen {
     {
         toasts.removeValue(toast,true);
         physicsWorld.destroyBody(toast.getBody());
+        toast.dispose();
         return toast;
     }
 }
