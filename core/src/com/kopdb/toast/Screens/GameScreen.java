@@ -22,7 +22,7 @@ public class GameScreen implements Screen {
 
     SpriteBatch spriteBatch;
     World physicsWorld;
-    Sprite toaster;
+    Toaster toaster;
     Array<Toast> toasts;
 
     int frames = 0;
@@ -32,19 +32,7 @@ public class GameScreen implements Screen {
         this.game = game;
         spriteBatch = game.batch;
         physicsWorld = game.world;
-        toaster = new Sprite(new Texture(Gdx.files.internal("toaster.jpg")));
-
-        // Position toaster
-        float toasterHWRatio = ((float) toaster.getTexture().getHeight())
-                / toaster.getTexture().getWidth();
-        float toasterWidth = Gdx.graphics.getWidth();
-        float toasterHeight = toasterWidth * toasterHWRatio;
-        toaster.setPosition(0, - (2f/3) * toasterHeight);
-        toaster.setSize(toasterWidth, toasterHeight);
-        toaster.setOriginCenter();
-        toaster.setScale(1.3f, 1.3f);
-        toaster.translateX(10);
-
+        toaster = new Toaster(new Texture(Gdx.files.internal("toaster.jpg")));
         toasts = new Array<Toast>();
 
         addToast(new Texture(Gdx.files.internal("badlogic.jpg")));
@@ -58,7 +46,6 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         frames++;
-        float height = toaster.getTexture().getHeight() / toaster.getTexture().getWidth() * Gdx.graphics.getWidth() * 1.2f;
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             game.setScreen(new GameScreen(game));
