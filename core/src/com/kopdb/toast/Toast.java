@@ -28,6 +28,7 @@ public class Toast implements Disposable
     public Toast(Texture texture) {
 
         sprite = new Sprite(texture);
+        sprite.setSize(sprite.getWidth() / 4f, sprite.getHeight() / 4f);
 
         bodyDef = new BodyDef();
         getBodyDef().type = BodyDef.BodyType.DynamicBody;

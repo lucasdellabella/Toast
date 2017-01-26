@@ -32,7 +32,7 @@ public class GameScreen implements Screen {
     Viewport viewport;
     Array<Toast> toasts;
 
-    float timeToNextToast = 1f;
+    float timeToNextToast = 0;
 
     public GameScreen(ToastGame game)
     {
@@ -49,8 +49,6 @@ public class GameScreen implements Screen {
 
         toaster = new Toaster(new Texture(Gdx.files.internal("toaster.jpg")));
         toasts = new Array<Toast>();
-
-        addToast(new Texture(Gdx.files.internal("badlogic.jpg")));
 
         Gdx.input.setInputProcessor(new ToastInputAdapter(toasts));
     }
@@ -71,7 +69,7 @@ public class GameScreen implements Screen {
         physicsWorld.step(delta,6,2);
 
         if (timeToNextToast <= 0) {
-            addToast(new Texture(Gdx.files.internal("badlogic.jpg")));
+            addToast(new Texture(Gdx.files.internal("whitetoast.png")));
             timeToNextToast = 1;
         }
 
