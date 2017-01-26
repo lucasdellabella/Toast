@@ -45,7 +45,7 @@ public class Toast implements Disposable
         getBody().createFixture(fixtureDef);
         getBody().setType(BodyDef.BodyType.StaticBody);
         getBody().setType(BodyDef.BodyType.DynamicBody);
-        getBody().setLinearVelocity(10 * ToastGame.box2dScale,100 * ToastGame.box2dScale);
+        getBody().setLinearVelocity(10 * ToastGame.box2dScale, 500 * ToastGame.box2dScale);
         lastPosition = body.getPosition().cpy();
     }
 
