@@ -25,8 +25,6 @@ public class GameScreen implements Screen {
 
     private final ToastGame game;
 
-    SpriteBatch spriteBatch;
-    public static World physicsWorld;//TODO: Make Singleton
     Toaster toaster;
     OrthographicCamera camera;
     Viewport viewport;
@@ -37,8 +35,6 @@ public class GameScreen implements Screen {
     public GameScreen(ToastGame game)
     {
         this.game = game;
-        spriteBatch = game.batch;
-        physicsWorld = game.world;
 
         // Set up camera + viewport
         camera = new OrthographicCamera();
@@ -66,7 +62,7 @@ public class GameScreen implements Screen {
             game.setScreen(new GameScreen(game));
         }
 
-        physicsWorld.step(delta,6,2);
+        ToastGame.world.step(delta,6,2);
 
         if (timeToNextToast <= 0) {
             addToast(new Texture(Gdx.files.internal("whitetoast.png")));
@@ -81,16 +77,16 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
-        spriteBatch.setProjectionMatrix(camera.combined);
+        ToastGame.batch.setProjectionMatrix(camera.combined);
 
-        spriteBatch.begin();
-        toaster.draw(spriteBatch);
+        ToastGame.batch.begin();
+        toaster.draw(ToastGame.batch);
 
         for (int i = 0; i < toasts.size; i++) {
-            toasts.get(i).draw(spriteBatch);
+            toasts.get(i).draw(ToastGame.batch);
         }
 
-        spriteBatch.end();
+        ToastGame.batch.end();
     }
 
     @Override
@@ -130,7 +126,7 @@ public class GameScreen implements Screen {
     private Toast destroyToast(Toast toast)
     {
         toasts.removeValue(toast,true);
-        physicsWorld.destroyBody(toast.getBody());
+        ToastGame.world.destroyBody(toast.getBody());
         toast.dispose();
         return toast;
     }

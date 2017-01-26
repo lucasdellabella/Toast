@@ -3,11 +3,9 @@ package com.kopdb.toast;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Disposable;
-import com.kopdb.toast.Screens.GameScreen;
 
 /**
  * Created by Richard Kopelow on 1/5/2017.
@@ -32,13 +30,13 @@ public class Toast implements Disposable
 
         bodyDef = new BodyDef();
         getBodyDef().type = BodyDef.BodyType.DynamicBody;
-        getBodyDef().position.set(getSprite().getX() * ToastGame.box2dScale,
-                - getSprite().getHeight() * ToastGame.box2dScale);
+        getBodyDef().position.set(getSprite().getX() * ToastGame.BOX_2D_SCALE,
+                - getSprite().getHeight() * ToastGame.BOX_2D_SCALE);
 
         shape = new PolygonShape();
-        getShape().setAsBox(getSprite().getWidth()/2 * ToastGame.box2dScale, getSprite().getHeight()/2 * ToastGame.box2dScale);
+        getShape().setAsBox(getSprite().getWidth()/2 * ToastGame.BOX_2D_SCALE, getSprite().getHeight()/2 * ToastGame.BOX_2D_SCALE);
 
-        setBody(GameScreen.physicsWorld.createBody(getBodyDef()));
+        setBody(ToastGame.world.createBody(getBodyDef()));
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = getShape();
@@ -46,7 +44,7 @@ public class Toast implements Disposable
         getBody().createFixture(fixtureDef);
         getBody().setType(BodyDef.BodyType.StaticBody);
         getBody().setType(BodyDef.BodyType.DynamicBody);
-        getBody().setLinearVelocity(10 * ToastGame.box2dScale, 500 * ToastGame.box2dScale);
+        getBody().setLinearVelocity(10 * ToastGame.BOX_2D_SCALE, 500 * ToastGame.BOX_2D_SCALE);
         lastPosition = body.getPosition().cpy();
     }
 
@@ -58,8 +56,8 @@ public class Toast implements Disposable
             body.setTransform(newPos.x, newPos.y, body.getAngle());
         }
 
-        sprite.setPosition(body.getPosition().x / ToastGame.box2dScale, body.getPosition().y /
-                ToastGame.box2dScale);
+        sprite.setPosition(body.getPosition().x / ToastGame.BOX_2D_SCALE, body.getPosition().y /
+                ToastGame.BOX_2D_SCALE);
         sprite.setRotation(body.getAngle());
     }
 
@@ -70,10 +68,10 @@ public class Toast implements Disposable
     public void checkTouchDown(int x, int y) {
         if (sprite.getBoundingRectangle().contains(x, y)) {
             // save x & y relative bottom left corner of body
-            touchOffset = body.getPosition().cpy().scl(1 / ToastGame.box2dScale).sub(x, y);
+            touchOffset = body.getPosition().cpy().scl(1 / ToastGame.BOX_2D_SCALE).sub(x, y);
             // where we want the toast to move to
             moveTarget = new Vector2(x + touchOffset.x, y + touchOffset.y);
-            moveTarget.scl(ToastGame.box2dScale);
+            moveTarget.scl(ToastGame.BOX_2D_SCALE);
             // remember moveTarget
             lastPosition = body.getPosition().cpy();
             lastTouchTime = 0;
@@ -97,7 +95,7 @@ public class Toast implements Disposable
     public void checkTouchDragged(int x, int y) {
         if (moveTarget != null) {
             moveTarget = new Vector2(x + touchOffset.x, y + touchOffset.y);
-            moveTarget.scl(ToastGame.box2dScale);
+            moveTarget.scl(ToastGame.BOX_2D_SCALE);
             lastTouchTime = touchTime;
             touchTime = System.currentTimeMillis();
         }
