@@ -26,13 +26,13 @@ public class GameScreen implements Screen {
     private final ToastGame game;
 
     SpriteBatch spriteBatch;
-    World physicsWorld;
+    public static World physicsWorld;//TODO: Make Singleton
     Toaster toaster;
     OrthographicCamera camera;
     Viewport viewport;
     Array<Toast> toasts;
 
-    int frames = 0;
+    float timeToNextToast = 1f;
 
     public GameScreen(ToastGame game)
     {
@@ -62,7 +62,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        frames++;
+        timeToNextToast -= delta;
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             game.setScreen(new GameScreen(game));
@@ -70,8 +70,9 @@ public class GameScreen implements Screen {
 
         physicsWorld.step(delta,6,2);
 
-        if (frames % 100==0) {
+        if (timeToNextToast <= 0) {
             addToast(new Texture(Gdx.files.internal("badlogic.jpg")));
+            timeToNextToast = 1;
         }
 
         for (int i = 0; i < toasts.size; i++) {
@@ -125,13 +126,6 @@ public class GameScreen implements Screen {
     {
         Toast toast=new Toast(texture);
         toasts.add(toast);
-        toast.setBody(physicsWorld.createBody(toast.getBodyDef()));
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = toast.getShape();
-        fixtureDef.density = 1f;
-        toast.getBody().createFixture(fixtureDef);
-
-        toast.getBody().setLinearVelocity(100,1000);
 
         return toast;
     }
