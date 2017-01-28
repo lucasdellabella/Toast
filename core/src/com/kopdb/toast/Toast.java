@@ -56,8 +56,8 @@ public class Toast implements Disposable
             body.setTransform(newPos.x, newPos.y, body.getAngle());
         }
 
-        sprite.setPosition(body.getPosition().x / ToastGame.BOX_2D_SCALE, body.getPosition().y /
-                ToastGame.BOX_2D_SCALE);
+        sprite.setPosition(body.getPosition().x / ToastGame.BOX_2D_SCALE,
+                body.getPosition().y / ToastGame.BOX_2D_SCALE);
         sprite.setRotation(body.getAngle());
     }
 

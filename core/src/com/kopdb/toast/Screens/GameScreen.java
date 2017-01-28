@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kopdb.toast.*;
@@ -16,6 +17,7 @@ import com.kopdb.toast.Input.ToastInputAdapter;
 
 public class GameScreen implements Screen {
 
+    private final int REMOVE_TOAST_THRESHOLD = -8;
     private final ToastGame game;
     Toaster toaster;
     Viewport viewport;
@@ -53,7 +55,16 @@ public class GameScreen implements Screen {
         }
 
         for (int i = 0; i < toasts.size; i++) {
-            toasts.get(i).update();
+            Toast current = toasts.get(i);
+            Vector2 curPos = current.getBody().getPosition();
+            current.update();
+            // Remove any toast that runs off the screen
+            if (curPos.y < REMOVE_TOAST_THRESHOLD
+                    || curPos.x / ToastGame.BOX_2D_SCALE > game.getViewport().getScreenWidth()
+                    || curPos.x / ToastGame.BOX_2D_SCALE < - current.getSprite().getWidth()) {
+                current.dispose();
+                toasts.removeIndex(i);
+            }
         }
 
         Gdx.gl.glClearColor(1,0,0,1);
