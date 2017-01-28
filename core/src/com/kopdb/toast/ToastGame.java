@@ -8,32 +8,51 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.kopdb.toast.Screens.GameScreen;
 import com.kopdb.toast.Screens.MainMenuScreen;
+
+import javax.swing.text.View;
 
 public class ToastGame extends Game {
 	public static float BOX_2D_SCALE = 0.01f;//Multiply going in divide going out
-	public static SpriteBatch batch;
-	public static World world;
-	public static OrthographicCamera camera;
-	public static Viewport viewport;
+	private static SpriteBatch batch;
+	private static World world;
+	private static OrthographicCamera camera;
+	private static Viewport viewport;
 
-	@Override
+    @Override
 	public void create () {
 		batch = new SpriteBatch();
 		world = new World(new Vector2(0, -98f * BOX_2D_SCALE), true);
-		this.setScreen(new MainMenuScreen());
 		// Set up camera + viewport
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+		camera = new OrthographicCamera();
+		getCamera().setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+		viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), getCamera());
 		viewport.apply();
-		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+		getCamera().position.set(getCamera().viewportWidth / 2, getCamera().viewportHeight / 2, 0);
+
+		this.setScreen(new MainMenuScreen(this));
 	}
-	
+
+    public static SpriteBatch getBatch() {
+        return batch;
+    }
+
+    public static World getWorld() {
+        return world;
+    }
+
+    public static OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public static Viewport getViewport() {
+        return viewport;
+    }
+
 	@Override
 	public void dispose () {
-		batch.dispose();
+		getBatch().dispose();
 	}
 }

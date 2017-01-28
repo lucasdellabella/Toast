@@ -3,16 +3,9 @@ package com.kopdb.toast.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kopdb.toast.*;
 import com.kopdb.toast.Input.ToastInputAdapter;
@@ -23,15 +16,16 @@ import com.kopdb.toast.Input.ToastInputAdapter;
 
 public class GameScreen implements Screen {
 
-
+    private final ToastGame game;
     Toaster toaster;
     Viewport viewport;
     Array<Toast> toasts;
 
     float timeToNextToast = 0;
 
-    public GameScreen()
+    public GameScreen(ToastGame game)
     {
+        this.game = game;
         toaster = new Toaster(new Texture(Gdx.files.internal("toaster.jpg")));
         toasts = new Array<Toast>();
 
@@ -51,7 +45,7 @@ public class GameScreen implements Screen {
             //game.setScreen(new GameScreen(game));
         }
 
-        ToastGame.world.step(delta,6,2);
+        ToastGame.getWorld().step(delta,6,2);
 
         if (timeToNextToast <= 0) {
             addToast(new Texture(Gdx.files.internal("whitetoast.png")));
@@ -65,17 +59,17 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        ToastGame.camera.update();
-        ToastGame.batch.setProjectionMatrix(ToastGame.camera.combined);
+        ToastGame.getCamera().update();
+        ToastGame.getBatch().setProjectionMatrix(ToastGame.getCamera().combined);
 
-        ToastGame.batch.begin();
-        toaster.draw(ToastGame.batch);
+        ToastGame.getBatch().begin();
+        toaster.draw(ToastGame.getBatch());
 
         for (int i = 0; i < toasts.size; i++) {
-            toasts.get(i).draw(ToastGame.batch);
+            toasts.get(i).draw(ToastGame.getBatch());
         }
 
-        ToastGame.batch.end();
+        ToastGame.getBatch().end();
     }
 
     @Override
@@ -115,7 +109,7 @@ public class GameScreen implements Screen {
     private Toast destroyToast(Toast toast)
     {
         toasts.removeValue(toast,true);
-        ToastGame.world.destroyBody(toast.getBody());
+        ToastGame.getWorld().destroyBody(toast.getBody());
         toast.dispose();
         return toast;
     }

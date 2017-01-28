@@ -36,7 +36,7 @@ public class Toast implements Disposable
         shape = new PolygonShape();
         getShape().setAsBox(getSprite().getWidth()/2 * ToastGame.BOX_2D_SCALE, getSprite().getHeight()/2 * ToastGame.BOX_2D_SCALE);
 
-        setBody(ToastGame.world.createBody(getBodyDef()));
+        setBody(ToastGame.getWorld().createBody(getBodyDef()));
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = getShape();
