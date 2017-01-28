@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.ObjectMap;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Richard Kopelow on 1/5/2017.
@@ -22,10 +26,13 @@ public class Toast implements Disposable
     private Vector2 newPos;
     private long touchTime;
     private long lastTouchTime;
+    private String type;
 
-    public Toast(Texture texture) {
 
-        sprite = new Sprite(texture);
+    public Toast(String toastType) {
+
+        type = toastType;
+        sprite = new Sprite(ToastGame.typeTextures.get(toastType));
         sprite.setSize(sprite.getWidth() / 4f, sprite.getHeight() / 4f);
 
         bodyDef = new BodyDef();
@@ -122,9 +129,10 @@ public class Toast implements Disposable
     }
 
     @Override
-    public void dispose() {
-        sprite.getTexture().dispose();
+    public void dispose() { }
+
+
+    public String getType() {
+        return type;
     }
-
-
 }
