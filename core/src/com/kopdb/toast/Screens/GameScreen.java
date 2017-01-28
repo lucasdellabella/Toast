@@ -23,26 +23,15 @@ import com.kopdb.toast.Input.ToastInputAdapter;
 
 public class GameScreen implements Screen {
 
-    private final ToastGame game;
 
     Toaster toaster;
-    OrthographicCamera camera;
     Viewport viewport;
     Array<Toast> toasts;
 
     float timeToNextToast = 0;
 
-    public GameScreen(ToastGame game)
+    public GameScreen()
     {
-        this.game = game;
-
-        // Set up camera + viewport
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
-        viewport.apply();
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-
         toaster = new Toaster(new Texture(Gdx.files.internal("toaster.jpg")));
         toasts = new Array<Toast>();
 
@@ -59,7 +48,7 @@ public class GameScreen implements Screen {
         timeToNextToast -= delta;
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            game.setScreen(new GameScreen(game));
+            //game.setScreen(new GameScreen(game));
         }
 
         ToastGame.world.step(delta,6,2);
@@ -76,8 +65,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.update();
-        ToastGame.batch.setProjectionMatrix(camera.combined);
+        ToastGame.camera.update();
+        ToastGame.batch.setProjectionMatrix(ToastGame.camera.combined);
 
         ToastGame.batch.begin();
         toaster.draw(ToastGame.batch);
