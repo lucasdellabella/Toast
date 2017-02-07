@@ -36,7 +36,7 @@ public class ToastGame extends Game {
 		getCamera().position.set(getCamera().viewportWidth / 2, getCamera().viewportHeight / 2, 0);
 
         // Fill in typeTexture map
-        typeTextures.put("white", new Texture(Gdx.files.internal("whitetoast.png")));
+        typeTextures.put("white", new Texture(Gdx.files.internal("WhiteToast.png")));
 
 		this.setScreen(new MainMenuScreen(this));
 	}
