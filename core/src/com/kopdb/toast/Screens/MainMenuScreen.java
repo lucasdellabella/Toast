@@ -26,15 +26,13 @@ public class MainMenuScreen implements Screen {
     private final ToastGame game;
     private Stage stage;
     Button playButton;
-    Skin uiSkin;
 
     public MainMenuScreen(ToastGame game) {
         this.game = game;
-        uiSkin = new Skin(Gdx.files.internal("uiskin.json"), new TextureAtlas("uiskin.atlas"));
         stage = new Stage(game.getViewport());
 
         // Create UI elements
-        playButton = new TextButton("Get Toasty", uiSkin);
+        playButton = new ImageButton(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("buttertoast.png")))));
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -95,6 +93,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        uiSkin.dispose();
+        //uiSkin.dispose();
     }
 }
