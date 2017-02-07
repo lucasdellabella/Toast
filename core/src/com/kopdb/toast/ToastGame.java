@@ -37,6 +37,7 @@ public class ToastGame extends Game {
 
         // Fill in typeTexture map
         typeTextures.put("white", new Texture(Gdx.files.internal("whitetoast.png")));
+        typeTextures.put("butter", new Texture(Gdx.files.internal("buttertoast.png")));
 
 		this.setScreen(new MainMenuScreen(this));
 	}

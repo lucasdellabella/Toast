@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectIntMap;
@@ -75,7 +76,7 @@ public class GameScreen implements Screen {
         // spawn a toast every second
         timeToNextToast -= delta;
         if (timeToNextToast <= 0) {
-            addToast("white");
+            addToast();
             timeToNextToast = 1;
         }
 
@@ -124,8 +125,23 @@ public class GameScreen implements Screen {
         }
     }
 
-    private Toast addToast(String toastType)
+    private Toast addToast()
     {
+        String toastType;
+        int randInt = MathUtils.random(1);
+
+        switch (randInt) {
+            case 0:
+                toastType = "white";
+                break;
+            case 1:
+                toastType = "butter";
+                break;
+            default:
+                toastType = "white";
+                break;
+        }
+
         Toast toast = new Toast(toastType);
         toasts.add(toast);
 

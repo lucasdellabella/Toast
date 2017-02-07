@@ -33,7 +33,12 @@ public class Toast implements Disposable
 
         type = toastType;
         sprite = new Sprite(ToastGame.typeTextures.get(toastType));
-        sprite.setSize(sprite.getWidth() / 4f, sprite.getHeight() / 4f);
+
+        float scaleFactor = 0.25f;
+        if (toastType.equals("butter")) {
+            scaleFactor /= 3;
+        }
+        sprite.setSize(sprite.getWidth() * scaleFactor, sprite.getHeight() * scaleFactor);
 
         bodyDef = new BodyDef();
         getBodyDef().type = BodyDef.BodyType.DynamicBody;
