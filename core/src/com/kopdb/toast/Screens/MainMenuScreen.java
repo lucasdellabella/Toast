@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -27,6 +28,9 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     Button playButton;
 
+    private Vector2 camTarget=new Vector2(ToastGame.getCamera().viewportWidth / 2, ToastGame.getCamera().viewportHeight / 2);
+    private Boolean startGame = false;
+
     public MainMenuScreen(ToastGame game) {
         this.game = game;
         stage = new Stage(game.getViewport());
@@ -36,7 +40,8 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                switchToGameScreen();
+                camTarget.x += 100;
+                startGame = true;
             }
         });
 
@@ -54,6 +59,16 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        //tweens camera to target and launches game if the camera reached the target and the game is meant to launch
+        Vector2 camDiff = camTarget.cpy().sub(ToastGame.getCamera().position.x, ToastGame.getCamera().position.y);
+        if (startGame && camDiff.len()<2)
+        {
+            switchToGameScreen();
+            startGame = false;
+        }
+        camDiff.scl(0.1f);
+        ToastGame.getCamera().translate(camDiff);
+
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -69,6 +84,7 @@ public class MainMenuScreen implements Screen {
     private void switchToGameScreen() {
         game.getScreen().dispose();
         game.setScreen(new GameScreen(game));
+        ToastGame.getCamera().position.set(ToastGame.getCamera().viewportWidth / 2, ToastGame.getCamera().viewportHeight / 2, 0);
     }
 
     @Override
