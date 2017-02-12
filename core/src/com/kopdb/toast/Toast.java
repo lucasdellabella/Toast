@@ -23,6 +23,7 @@ public class Toast implements Disposable
     private Vector2 touchOffset;
     private Vector2 lastPosition;
     private Vector2 newPos;
+    private Vector2 origin;
     private long touchTime;
     private long lastTouchTime;
     private String type;
@@ -43,6 +44,8 @@ public class Toast implements Disposable
 //        }
 
         sprite.setSize(sprite.getWidth() * scaleFactor, sprite.getHeight() * scaleFactor);
+        origin = new Vector2(sprite.getWidth() / 2, sprite.getHeight() / 2);
+        sprite.setOrigin(origin.x,origin.y);
         sprite.setPosition(MathUtils.random(Gdx.graphics.getWidth() - sprite.getWidth()), 0);
 
         bodyDef = new BodyDef();
@@ -51,7 +54,7 @@ public class Toast implements Disposable
                 - getSprite().getHeight() * ToastGame.BOX_2D_SCALE);
 
         shape = new PolygonShape();
-        getShape().setAsBox(getSprite().getWidth()/2 * ToastGame.BOX_2D_SCALE, getSprite().getHeight()/2 * ToastGame.BOX_2D_SCALE);
+        getShape().setAsBox(getSprite().getWidth()/2 * ToastGame.BOX_2D_SCALE, getSprite().getHeight()/2 * ToastGame.BOX_2D_SCALE, new Vector2(0,0),0);
 
         setBody(ToastGame.getWorld().createBody(getBodyDef()));
 
@@ -81,9 +84,9 @@ public class Toast implements Disposable
             body.setTransform(newPos.x, newPos.y, body.getAngle());
         }
 
-        sprite.setPosition(body.getPosition().x / ToastGame.BOX_2D_SCALE,
-                body.getPosition().y / ToastGame.BOX_2D_SCALE);
-        sprite.setRotation(body.getAngle());
+        sprite.setPosition(body.getPosition().x / ToastGame.BOX_2D_SCALE - origin.x,
+                body.getPosition().y / ToastGame.BOX_2D_SCALE - origin.y);
+        sprite.setRotation((float)Math.toDegrees(body.getAngle()));
     }
 
     public void draw(SpriteBatch batch) {
