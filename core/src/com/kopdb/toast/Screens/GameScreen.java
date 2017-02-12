@@ -3,14 +3,15 @@ package com.kopdb.toast.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectIntMap;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kopdb.toast.*;
 import com.kopdb.toast.Input.ToastInputAdapter;
 
@@ -21,7 +22,9 @@ import com.kopdb.toast.Input.ToastInputAdapter;
 public class GameScreen implements Screen {
 
     private final float REMOVE_TOAST_THRESHOLD = 0;
+    private final int NUM_UNIQUE_TOASTS = 4;
     private final ToastGame game;
+    private final Texture backgroundImage;
     private BitmapFont font;
     private Toaster toaster;
     private Array<Toast> toasts;
@@ -33,10 +36,19 @@ public class GameScreen implements Screen {
     public GameScreen(ToastGame game)
     {
         this.game = game;
-        toaster = new Toaster(new Texture(Gdx.files.internal("toaster.jpg")));
+        backgroundImage = new Texture(Gdx.files.internal("sky.png"));
+
         toasts = new Array<Toast>();
         flickCountByType = new ObjectIntMap<>();
-        font = new BitmapFont();
+
+        // Use TTF for font writer
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fatpen" +
+                ".ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 36;
+        parameter.borderColor = Color.BLACK;
+        parameter.borderWidth = 3;
+        font = generator.generateFont(parameter);
 
         Gdx.input.setInputProcessor(new ToastInputAdapter(toasts));
     }
@@ -55,7 +67,9 @@ public class GameScreen implements Screen {
         ToastGame.getBatch().setProjectionMatrix(ToastGame.getCamera().combined);
 
         ToastGame.getBatch().begin();
-        toaster.draw(ToastGame.getBatch());
+        ToastGame.getBatch().draw(backgroundImage,
+                0, 0,
+                Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         for (int i = 0; i < toasts.size; i++) {
             toasts.get(i).draw(ToastGame.getBatch());
         }
@@ -63,8 +77,8 @@ public class GameScreen implements Screen {
         // draw the counter
         font.draw(game.getBatch(),
                 "" + totalFlickCount,
-                game.getViewport().getScreenWidth() - 40,
-                game.getViewport().getScreenHeight() - 40);
+                150,
+                game.getViewport().getScreenHeight() - 60);
         ToastGame.getBatch().end();
 
         ToastGame.getWorld().step(delta,6,2);
@@ -128,7 +142,7 @@ public class GameScreen implements Screen {
     private Toast addToast()
     {
         String toastType;
-        int randInt = MathUtils.random(1);
+        int randInt = MathUtils.random(NUM_UNIQUE_TOASTS);
 
         switch (randInt) {
             case 0:
@@ -136,6 +150,12 @@ public class GameScreen implements Screen {
                 break;
             case 1:
                 toastType = "butter";
+                break;
+            case 2:
+                toastType = "chef";
+                break;
+            case 3:
+                toastType = "explorer";
                 break;
             default:
                 toastType = "white";

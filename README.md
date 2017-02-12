@@ -16,3 +16,5 @@ Toast me up bois
 - [ ] Have toasts spawn from anywhere
 - [ ] End game button
 - [ ] R: Have pull on toaster lever + transition into new screen
+
+- [ ] Scaling / collision bug
