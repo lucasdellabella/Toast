@@ -41,8 +41,8 @@ public class ToastGame extends Game {
         // Fill in typeTexture map
         typeTextures.put("white", new Texture(Gdx.files.internal("Toasts/StashToast.png")));
         typeTextures.put("butter", new Texture(Gdx.files.internal("Toasts/HappyToast.png")));
-		typeTextures.put("chef", new Texture(Gdx.files.internal("cheftoast.png")));
-		typeTextures.put("explorer", new Texture(Gdx.files.internal("explorertoast.png")));
+		typeTextures.put("chef", new Texture(Gdx.files.internal("Toasts/cheftoast.png")));
+		typeTextures.put("explorer", new Texture(Gdx.files.internal("Toasts/explorertoast.png")));
 
 		// Fill in typeTouchSounds map
 		typeTouchSounds.put("white", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));

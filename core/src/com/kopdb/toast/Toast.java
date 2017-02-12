@@ -124,6 +124,7 @@ public class Toast implements Disposable
 
             // decide whether the release counted as a flick
             if (velocity.len2() >= FLICK_THRESHOLD) {
+                touchSound.stop();
                 flickSound.play();
             }
 
