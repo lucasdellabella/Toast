@@ -24,7 +24,7 @@ import com.kopdb.toast.Input.ToastInputAdapter;
 public class GameScreen implements Screen {
 
     private final float REMOVE_TOAST_THRESHOLD = 0;
-    private final int NUM_UNIQUE_TOASTS = 4;
+    private final int NUM_UNIQUE_TOASTS = 8;
     private final ToastGame game;
     private final Texture backgroundImage;
     private BitmapFont font;
@@ -32,6 +32,7 @@ public class GameScreen implements Screen {
     private ObjectIntMap<String> flickCountByType;
     private float timeToNextToast = 0;
     private int totalFlickCount = 0;
+    private boolean clean = true;//used to do inits that need to happen after the first render
     //Box2DDebugRenderer debugRenderer;
 
 
@@ -42,8 +43,6 @@ public class GameScreen implements Screen {
 
         toasts = new Array<Toast>();
         flickCountByType = new ObjectIntMap<>();
-
-        ToastGame.getCamera().position.set(ToastGame.getCamera().viewportWidth / 2, ToastGame.getCamera().viewportHeight / 2, 0);
 
         // Use TTF for font writer
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fatpen" +
@@ -65,8 +64,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1,0,0,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //Gdx.gl.glClearColor(0,0,0,0);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         ToastGame.getCamera().update();
         ToastGame.getBatch().setProjectionMatrix(ToastGame.getCamera().combined);
@@ -121,6 +120,10 @@ public class GameScreen implements Screen {
                 totalFlickCount += 1;
             }
         }
+        if (clean) {
+            ToastGame.getCamera().position.set(ToastGame.getCamera().viewportWidth / 2, ToastGame.getCamera().viewportHeight / 2, 0);
+            clean = false;
+        }
     }
 
     @Override
@@ -167,6 +170,18 @@ public class GameScreen implements Screen {
                 break;
             case 3:
                 toastType = "explorer";
+                break;
+            case 4:
+                toastType = "angry";
+                break;
+            case 5:
+                toastType = "jelly";
+                break;
+            case 6:
+                toastType = "sad";
+                break;
+            case 7:
+                toastType = "worried";
                 break;
             default:
                 toastType = "happy";

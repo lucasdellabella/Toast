@@ -43,12 +43,20 @@ public class ToastGame extends Game {
         typeTextures.put("happy", new Texture(Gdx.files.internal("Toasts/HappyToast.png")));
 		typeTextures.put("chef", new Texture(Gdx.files.internal("Toasts/cheftoast.png")));
 		typeTextures.put("explorer", new Texture(Gdx.files.internal("Toasts/explorertoast.png")));
+		typeTextures.put("angry", new Texture(Gdx.files.internal("Toasts/AngryToast.png")));
+		typeTextures.put("jelly", new Texture(Gdx.files.internal("Toasts/jellytoast.png")));
+		typeTextures.put("sad", new Texture(Gdx.files.internal("Toasts/SadToast.png")));
+		typeTextures.put("worried", new Texture(Gdx.files.internal("Toasts/WorriedToast.png")));
 
 		// Fill in typeTouchSounds map
 		typeTouchSounds.put("stash", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
 		typeTouchSounds.put("happy", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
 		typeTouchSounds.put("chef", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
 		typeTouchSounds.put("explorer", Gdx.audio.newSound(Gdx.files.internal("audio/explorertouch.wav")));
+		typeTouchSounds.put("angry", Gdx.audio.newSound(Gdx.files.internal("audio/explorertouch.wav")));
+		typeTouchSounds.put("jelly", Gdx.audio.newSound(Gdx.files.internal("audio/explorertouch.wav")));
+		typeTouchSounds.put("sad", Gdx.audio.newSound(Gdx.files.internal("audio/explorertouch.wav")));
+		typeTouchSounds.put("worried", Gdx.audio.newSound(Gdx.files.internal("audio/explorertouch.wav")));
 
 		// Fill in typeFlickSounds map
 		typeFlickSounds.put("stash", Gdx.audio.newSound(Gdx.files.internal("audio/sadflick.wav")));
@@ -56,6 +64,10 @@ public class ToastGame extends Game {
 		typeFlickSounds.put("chef", Gdx.audio.newSound(Gdx.files.internal("audio/chefflick.wav")));
 		typeFlickSounds.put("explorer", Gdx.audio.newSound(Gdx.files.internal("audio/explorerflick" +
 				".wav")));
+		typeFlickSounds.put("angry", Gdx.audio.newSound(Gdx.files.internal("audio/chefflick.wav")));
+		typeFlickSounds.put("jelly", Gdx.audio.newSound(Gdx.files.internal("audio/chefflick.wav")));
+		typeFlickSounds.put("sad", Gdx.audio.newSound(Gdx.files.internal("audio/chefflick.wav")));
+		typeFlickSounds.put("worried", Gdx.audio.newSound(Gdx.files.internal("audio/chefflick.wav")));
 
 		this.setScreen(new MainMenuScreen(this));
 	}
