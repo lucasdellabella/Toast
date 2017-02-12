@@ -46,7 +46,7 @@ public class Toast implements Disposable
         sprite.setSize(sprite.getWidth() * scaleFactor, sprite.getHeight() * scaleFactor);
         origin = new Vector2(sprite.getWidth() / 2, sprite.getHeight() / 2);
         sprite.setOrigin(origin.x,origin.y);
-        sprite.setPosition(MathUtils.random(Gdx.graphics.getWidth() - sprite.getWidth()), 0);
+        sprite.setPosition(MathUtils.random(ToastGame.getViewport().getScreenWidth() - sprite.getWidth()), 0);
 
         bodyDef = new BodyDef();
         getBodyDef().type = BodyDef.BodyType.DynamicBody;
@@ -65,7 +65,7 @@ public class Toast implements Disposable
         getBody().setType(BodyDef.BodyType.StaticBody);
         getBody().setType(BodyDef.BodyType.DynamicBody);
 
-        float distToMiddle = Gdx.graphics.getWidth() / 2 - (sprite.getX() + sprite.getWidth() / 2);
+        float distToMiddle = ToastGame.getViewport().getScreenWidth() / 2 - (sprite.getX() + sprite.getWidth() / 2);
         float xVel = distToMiddle / 100 * MathUtils.random(100)
                 + Math.signum(distToMiddle) * MathUtils.random(100f);
         float yVel = 420 + MathUtils.random(350);
