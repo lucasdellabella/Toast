@@ -78,8 +78,8 @@ public class GameScreen implements Screen {
         // draw the counter
         font.draw(game.getBatch(),
                 "" + totalFlickCount,
-                150,
-                game.getViewport().getScreenHeight() - 60);
+                game.getViewport().getScreenWidth() / 8,
+                game.getViewport().getScreenHeight() * 13 / 14);
         ToastGame.getBatch().end();
 
         ToastGame.getWorld().step(delta,6,2);

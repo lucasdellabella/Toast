@@ -1,8 +1,10 @@
 package com.kopdb.toast;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Disposable;
@@ -35,11 +37,13 @@ public class Toast implements Disposable
         touchSound = ToastGame.typeTouchSounds.get(toastType);
         flickSound = ToastGame.typeFlickSounds.get(toastType);
 
-        float scaleFactor = 0.33f;
-        if (!toastType.equals("white")) {
-            scaleFactor /= 3;
-        }
+        float scaleFactor = 0.11f;
+//        if (!toastType.equals("white")) {
+//            scaleFactor /= 3;
+//        }
+
         sprite.setSize(sprite.getWidth() * scaleFactor, sprite.getHeight() * scaleFactor);
+        sprite.setPosition(MathUtils.random(Gdx.graphics.getWidth() - sprite.getWidth()), 0);
 
         bodyDef = new BodyDef();
         getBodyDef().type = BodyDef.BodyType.DynamicBody;
@@ -57,7 +61,15 @@ public class Toast implements Disposable
         getBody().createFixture(fixtureDef);
         getBody().setType(BodyDef.BodyType.StaticBody);
         getBody().setType(BodyDef.BodyType.DynamicBody);
-        getBody().setLinearVelocity(10 * ToastGame.BOX_2D_SCALE, 500 * ToastGame.BOX_2D_SCALE);
+
+        float distToMiddle = Gdx.graphics.getWidth() / 2 - (sprite.getX() + sprite.getWidth() / 2);
+        float xVel = distToMiddle / 100 * MathUtils.random(100)
+                + Math.signum(distToMiddle) * MathUtils.random(100f);
+        float yVel = 420 + MathUtils.random(350);
+        getBody().setLinearVelocity(xVel * ToastGame.BOX_2D_SCALE, yVel * ToastGame.BOX_2D_SCALE);
+
+        // Something is wrong with motion and collision of bodies when they are rotating
+        //getBody().setAngularVelocity(MathUtils.random(-1, 1) * MathUtils.random(0, 50));
         lastPosition = body.getPosition().cpy();
     }
 

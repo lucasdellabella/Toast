@@ -28,7 +28,7 @@ public class ToastGame extends Game {
     @Override
 	public void create () {
 		batch = new SpriteBatch();
-		world = new World(new Vector2(0, -98f * BOX_2D_SCALE), true);
+		world = new World(new Vector2(0, -300f * BOX_2D_SCALE), true);
 
         // Set up camera + viewport
 		camera = new OrthographicCamera();
@@ -39,8 +39,8 @@ public class ToastGame extends Game {
 		getCamera().position.set(getCamera().viewportWidth / 2, getCamera().viewportHeight / 2, 0);
 
         // Fill in typeTexture map
-        typeTextures.put("white", new Texture(Gdx.files.internal("whitetoast.png")));
-        typeTextures.put("butter", new Texture(Gdx.files.internal("buttertoast.png")));
+        typeTextures.put("white", new Texture(Gdx.files.internal("Toasts/StashToast.png")));
+        typeTextures.put("butter", new Texture(Gdx.files.internal("Toasts/HappyToast.png")));
 		typeTextures.put("chef", new Texture(Gdx.files.internal("cheftoast.png")));
 		typeTextures.put("explorer", new Texture(Gdx.files.internal("explorertoast.png")));
 
