@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectIntMap;
 import com.kopdb.toast.*;
@@ -30,6 +32,7 @@ public class GameScreen implements Screen {
     private ObjectIntMap<String> flickCountByType;
     private float timeToNextToast = 0;
     private int totalFlickCount = 0;
+    //Box2DDebugRenderer debugRenderer;
 
 
     public GameScreen(ToastGame game)
@@ -52,6 +55,7 @@ public class GameScreen implements Screen {
         font = generator.generateFont(parameter);
 
         Gdx.input.setInputProcessor(new ToastInputAdapter(toasts));
+        //debugRenderer = new Box2DDebugRenderer();
     }
 
     @Override
@@ -83,6 +87,9 @@ public class GameScreen implements Screen {
         ToastGame.getBatch().end();
 
         ToastGame.getWorld().step(delta,6,2);
+        //Matrix4 debugMatrix=new Matrix4(ToastGame.getCamera().combined);
+        //debugMatrix.scale(1/ToastGame.BOX_2D_SCALE, 1/ToastGame.BOX_2D_SCALE,1f);
+        //debugRenderer.render(ToastGame.getWorld(), debugMatrix);
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             game.setScreen(new GameScreen(game));
