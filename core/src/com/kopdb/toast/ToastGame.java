@@ -2,6 +2,7 @@ package com.kopdb.toast;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,6 +18,8 @@ import javax.swing.text.View;
 public class ToastGame extends Game {
 	public static float BOX_2D_SCALE = 0.01f;//Multiply going in divide going out
     public static ObjectMap<String, Texture> typeTextures = new ObjectMap<>();
+	public static ObjectMap<String, Sound> typeTouchSounds = new ObjectMap<>();
+	public static ObjectMap<String, Sound> typeFlickSounds = new ObjectMap<>();
 	private static SpriteBatch batch;
 	private static World world;
 	private static OrthographicCamera camera;
@@ -36,7 +39,23 @@ public class ToastGame extends Game {
 		getCamera().position.set(getCamera().viewportWidth / 2, getCamera().viewportHeight / 2, 0);
 
         // Fill in typeTexture map
-        typeTextures.put("white", new Texture(Gdx.files.internal("WhiteToast.png")));
+        typeTextures.put("white", new Texture(Gdx.files.internal("whitetoast.png")));
+        typeTextures.put("butter", new Texture(Gdx.files.internal("buttertoast.png")));
+		typeTextures.put("chef", new Texture(Gdx.files.internal("cheftoast.png")));
+		typeTextures.put("explorer", new Texture(Gdx.files.internal("explorertoast.png")));
+
+		// Fill in typeTouchSounds map
+		typeTouchSounds.put("white", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
+		typeTouchSounds.put("butter", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
+		typeTouchSounds.put("chef", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
+		typeTouchSounds.put("explorer", Gdx.audio.newSound(Gdx.files.internal("audio/explorertouch.wav")));
+
+		// Fill in typeFlickSounds map
+		typeFlickSounds.put("white", Gdx.audio.newSound(Gdx.files.internal("audio/sadflick.wav")));
+		typeFlickSounds.put("butter", Gdx.audio.newSound(Gdx.files.internal("audio/sadflick.wav")));
+		typeFlickSounds.put("chef", Gdx.audio.newSound(Gdx.files.internal("audio/chefflick.wav")));
+		typeFlickSounds.put("explorer", Gdx.audio.newSound(Gdx.files.internal("audio/explorerflick" +
+				".wav")));
 
 		this.setScreen(new MainMenuScreen(this));
 	}

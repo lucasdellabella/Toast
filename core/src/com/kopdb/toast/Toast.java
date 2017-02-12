@@ -1,21 +1,18 @@
 package com.kopdb.toast;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.ObjectMap;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Richard Kopelow on 1/5/2017.
  */
 public class Toast implements Disposable
 {
+    final private float FLICK_THRESHOLD = (float) Math.pow(2.5, 2);
     private Sprite sprite;
     private BodyDef bodyDef;
     private PolygonShape shape;
@@ -27,13 +24,22 @@ public class Toast implements Disposable
     private long touchTime;
     private long lastTouchTime;
     private String type;
+    private Sound touchSound;
+    private Sound flickSound;
 
 
     public Toast(String toastType) {
 
         type = toastType;
         sprite = new Sprite(ToastGame.typeTextures.get(toastType));
-        sprite.setSize(sprite.getWidth() / 4f, sprite.getHeight() / 4f);
+        touchSound = ToastGame.typeTouchSounds.get(toastType);
+        flickSound = ToastGame.typeFlickSounds.get(toastType);
+
+        float scaleFactor = 0.33f;
+        if (!toastType.equals("white")) {
+            scaleFactor /= 3;
+        }
+        sprite.setSize(sprite.getWidth() * scaleFactor, sprite.getHeight() * scaleFactor);
 
         bodyDef = new BodyDef();
         getBodyDef().type = BodyDef.BodyType.DynamicBody;
@@ -85,15 +91,30 @@ public class Toast implements Disposable
             touchTime = System.currentTimeMillis();
             body.setLinearVelocity(0, 0);
             body.setType(BodyDef.BodyType.KinematicBody);
+            touchSound.play();
         }
     }
 
     // TODO: use pointers to handle drag off and release?
+    // Got a divide by zero exception from
+    // velocity.scl(1000 / (System.currentTimeMillis() - lastTouchTime));
     public void checkTouchUp(int x, int y) {
         if (moveTarget != null) {
             body.setType(BodyDef.BodyType.DynamicBody);
             Vector2 velocity = newPos.cpy().sub(lastPosition);
-            velocity.scl(1000 / (System.currentTimeMillis() - lastTouchTime));
+
+            // Avoids a divide by zero exception
+            try {
+                velocity.scl(1000 / (System.currentTimeMillis() - lastTouchTime));
+            } catch (ArithmeticException e) {
+                velocity.scl(1000 / 0.0001f);
+            }
+
+            // decide whether the release counted as a flick
+            if (velocity.len2() >= FLICK_THRESHOLD) {
+                flickSound.play();
+            }
+
             body.setLinearVelocity(velocity);
             moveTarget = null;
         }
@@ -129,7 +150,9 @@ public class Toast implements Disposable
     }
 
     @Override
-    public void dispose() { }
+    public void dispose() {
+        ToastGame.getWorld().destroyBody(getBody());
+    }
 
 
     public String getType() {
