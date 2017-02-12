@@ -39,20 +39,20 @@ public class ToastGame extends Game {
 		getCamera().position.set(getCamera().viewportWidth / 2, getCamera().viewportHeight / 2, 0);
 
         // Fill in typeTexture map
-        typeTextures.put("white", new Texture(Gdx.files.internal("Toasts/StashToast.png")));
-        typeTextures.put("butter", new Texture(Gdx.files.internal("Toasts/HappyToast.png")));
+        typeTextures.put("stash", new Texture(Gdx.files.internal("Toasts/StashToast.png")));
+        typeTextures.put("happy", new Texture(Gdx.files.internal("Toasts/HappyToast.png")));
 		typeTextures.put("chef", new Texture(Gdx.files.internal("Toasts/cheftoast.png")));
 		typeTextures.put("explorer", new Texture(Gdx.files.internal("Toasts/explorertoast.png")));
 
 		// Fill in typeTouchSounds map
-		typeTouchSounds.put("white", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
-		typeTouchSounds.put("butter", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
+		typeTouchSounds.put("stash", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
+		typeTouchSounds.put("happy", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
 		typeTouchSounds.put("chef", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
 		typeTouchSounds.put("explorer", Gdx.audio.newSound(Gdx.files.internal("audio/explorertouch.wav")));
 
 		// Fill in typeFlickSounds map
-		typeFlickSounds.put("white", Gdx.audio.newSound(Gdx.files.internal("audio/sadflick.wav")));
-		typeFlickSounds.put("butter", Gdx.audio.newSound(Gdx.files.internal("audio/sadflick.wav")));
+		typeFlickSounds.put("stash", Gdx.audio.newSound(Gdx.files.internal("audio/sadflick.wav")));
+		typeFlickSounds.put("happy", Gdx.audio.newSound(Gdx.files.internal("audio/sadflick.wav")));
 		typeFlickSounds.put("chef", Gdx.audio.newSound(Gdx.files.internal("audio/chefflick.wav")));
 		typeFlickSounds.put("explorer", Gdx.audio.newSound(Gdx.files.internal("audio/explorerflick" +
 				".wav")));

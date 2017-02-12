@@ -94,6 +94,9 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             game.setScreen(new GameScreen(game));
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.setScreen(new MainMenuScreen(game));
+        }
 
         // spawn a toast every second
         timeToNextToast -= delta;
@@ -154,10 +157,10 @@ public class GameScreen implements Screen {
 
         switch (randInt) {
             case 0:
-                toastType = "white";
+                toastType = "stash";
                 break;
             case 1:
-                toastType = "butter";
+                toastType = "happy";
                 break;
             case 2:
                 toastType = "chef";
@@ -166,7 +169,7 @@ public class GameScreen implements Screen {
                 toastType = "explorer";
                 break;
             default:
-                toastType = "white";
+                toastType = "happy";
                 break;
         }
 
