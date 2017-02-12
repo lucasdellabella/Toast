@@ -26,7 +26,6 @@ public class GameScreen implements Screen {
     private final ToastGame game;
     private final Texture backgroundImage;
     private BitmapFont font;
-    private Toaster toaster;
     private Array<Toast> toasts;
     private ObjectIntMap<String> flickCountByType;
     private float timeToNextToast = 0;
@@ -40,6 +39,8 @@ public class GameScreen implements Screen {
 
         toasts = new Array<Toast>();
         flickCountByType = new ObjectIntMap<>();
+
+        ToastGame.getCamera().position.set(ToastGame.getCamera().viewportWidth / 2, ToastGame.getCamera().viewportHeight / 2, 0);
 
         // Use TTF for font writer
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fatpen" +

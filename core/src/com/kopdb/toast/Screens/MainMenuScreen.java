@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.kopdb.toast.Input.ToastInputAdapter;
+import com.kopdb.toast.Input.ToasterInputAdapter;
 import com.kopdb.toast.ToastGame;
 
 /**
@@ -27,29 +29,30 @@ public class MainMenuScreen implements Screen {
     private final ToastGame game;
     private Stage stage;
     Button playButton;
+    Sprite toaster;
+    Sprite toasterLever;
 
-    private Vector2 camTarget=new Vector2(ToastGame.getCamera().viewportWidth / 2, ToastGame.getCamera().viewportHeight / 2);
+    private Vector2 camTarget = new Vector2(ToastGame.getCamera().viewportWidth / 2, ToastGame.getCamera().viewportHeight / 2);
     private Boolean startGame = false;
+    private float toasterHeight;
 
     public MainMenuScreen(ToastGame game) {
         this.game = game;
         stage = new Stage(game.getViewport());
 
-        // Create UI elements
-        playButton = new ImageButton(new SpriteDrawable(new Sprite(new Texture(Gdx.files.internal("buttertoast.png")))));
-        playButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                camTarget.x += 100;
-                startGame = true;
-            }
-        });
+        toaster = new Sprite(new Texture(Gdx.files.internal("Toaster.png")));
+        float toasterAspect = 1574f/2048f;
+        toasterHeight = toasterAspect*ToastGame.getCamera().viewportWidth;
+        toaster.setSize(ToastGame.getCamera().viewportWidth, toasterHeight);
 
-        // Add UI elements to stage for drawing + input processing
-        stage.addActor(playButton);
+        toasterLever = new Sprite(new Texture(Gdx.files.internal("ToasterLever.png")));
+        float toasterLeverAspect = 192f/517f;
+        toasterLever.setSize(ToastGame.getCamera().viewportWidth*0.6f, ToastGame.getCamera().viewportWidth*0.4f*toasterLeverAspect);
+        toasterLever.setPosition(ToastGame.getCamera().viewportWidth*0.2f,toasterHeight*0.7f);
 
         // Use stage as input processor
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(new ToasterInputAdapter(this, toasterLever, toasterLever.getY(), toasterHeight*0.4f));
     }
 
     @Override
@@ -75,16 +78,22 @@ public class MainMenuScreen implements Screen {
         ToastGame.getCamera().update();
         ToastGame.getBatch().setProjectionMatrix(ToastGame.getCamera().combined);
         ToastGame.getBatch().begin();
-        stage.draw();
+        //stage.draw();
+        toaster.draw(ToastGame.getBatch());
+        toasterLever.draw(ToastGame.getBatch());
         ToastGame.getBatch().end();
 
         stage.act(delta);
     }
 
+    public void toasterSwitchSet()
+    {
+        camTarget.y += toasterHeight;
+        startGame = true;
+    }
     private void switchToGameScreen() {
         game.getScreen().dispose();
         game.setScreen(new GameScreen(game));
-        ToastGame.getCamera().position.set(ToastGame.getCamera().viewportWidth / 2, ToastGame.getCamera().viewportHeight / 2, 0);
     }
 
     @Override
