@@ -150,7 +150,9 @@ public class Toast implements Disposable
     }
 
     @Override
-    public void dispose() { }
+    public void dispose() {
+        ToastGame.getWorld().destroyBody(getBody());
+    }
 
 
     public String getType() {

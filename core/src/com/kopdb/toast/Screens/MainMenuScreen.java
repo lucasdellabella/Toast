@@ -88,7 +88,7 @@ public class MainMenuScreen implements Screen {
 
     public void toasterSwitchSet()
     {
-        camTarget.y += toasterHeight;
+        camTarget.y += toasterHeight+15;
         startGame = true;
     }
     private void switchToGameScreen() {
