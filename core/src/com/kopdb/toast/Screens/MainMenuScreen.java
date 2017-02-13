@@ -43,7 +43,7 @@ public class MainMenuScreen implements Screen {
         gameBackgroundImage = new Texture(Gdx.files.internal("sky.png"));
         menuBackgroundImage = new Texture(Gdx.files.internal("mainmenu.png"));
         menuBackgroundAspect = (float)menuBackgroundImage.getHeight()/(float)menuBackgroundImage.getWidth();
-        menuBackgroundHeight = Gdx.graphics.getWidth()*menuBackgroundAspect;
+        menuBackgroundHeight = ToastGame.getCamera().viewportWidth*menuBackgroundAspect;
 
         toaster = new Sprite(new Texture(Gdx.files.internal("Toaster.png")));
         float toasterAspect = 1574f/2048f;
@@ -95,17 +95,17 @@ public class MainMenuScreen implements Screen {
         //stage.draw();
         ToastGame.getBatch().draw(gameBackgroundImage,
                 0, menuBackgroundHeight,
-                Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                ToastGame.getCamera().viewportWidth, ToastGame.getCamera().viewportHeight);
         ToastGame.getBatch().draw(menuBackgroundImage,
                 0, 0,
-                Gdx.graphics.getWidth(), menuBackgroundHeight);
+                ToastGame.getCamera().viewportWidth, menuBackgroundHeight);
         toaster.draw(ToastGame.getBatch());
         toasterLever.draw(ToastGame.getBatch());
 
         font.draw(game.getBatch(),
                 "Toast" ,
-                game.getViewport().getScreenWidth() / 3,
-                game.getViewport().getScreenHeight() * 13 / 14);
+                ToastGame.getCamera().viewportWidth / 3,
+                ToastGame.getCamera().viewportHeight * 13 / 14);
         ToastGame.getBatch().end();
 
         stage.act(delta);

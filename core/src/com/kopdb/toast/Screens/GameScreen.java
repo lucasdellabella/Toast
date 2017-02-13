@@ -73,7 +73,7 @@ public class GameScreen implements Screen {
         ToastGame.getBatch().begin();
         ToastGame.getBatch().draw(backgroundImage,
                 0, 0,
-                Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                ToastGame.getCamera().viewportWidth, ToastGame.getCamera().viewportHeight);
         for (int i = 0; i < toasts.size; i++) {
             toasts.get(i).draw(ToastGame.getBatch());
         }
@@ -81,8 +81,8 @@ public class GameScreen implements Screen {
         // draw the counter
         font.draw(game.getBatch(),
                 "" + totalFlickCount,
-                game.getViewport().getScreenWidth() / 8,
-                game.getViewport().getScreenHeight() * 13 / 14);
+                ToastGame.getCamera().viewportWidth / 8,
+                ToastGame.getCamera().viewportHeight * 13 / 14);
         ToastGame.getBatch().end();
 
         ToastGame.getWorld().step(delta,6,2);

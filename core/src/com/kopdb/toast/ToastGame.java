@@ -34,7 +34,8 @@ public class ToastGame extends Game {
 		camera = new OrthographicCamera();
 		getCamera().setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), getCamera());
+		float aspect = (float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
+		viewport = new FitViewport(540, 540 * aspect, getCamera());
 		viewport.apply();
 		getCamera().position.set(getCamera().viewportWidth / 2, getCamera().viewportHeight / 2, 0);
 

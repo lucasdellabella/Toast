@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.kopdb.toast.Screens.MainMenuScreen;
 import com.kopdb.toast.ToastGame;
@@ -21,10 +22,6 @@ public class ToasterInputAdapter extends InputAdapter {
     float touchOffset;
     boolean done=false;
 
-    private int convertToYUp(int yDown) {
-        return Gdx.graphics.getHeight() - 1 - yDown;
-    }
-
     public ToasterInputAdapter(MainMenuScreen menu, Sprite toasterLever, float top, float bottom) {
         mainMenu = menu;
         lever = toasterLever;
@@ -34,7 +31,10 @@ public class ToasterInputAdapter extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        screenY=convertToYUp(screenY);
+        Vector3 in = new Vector3(screenX, screenY, 0);
+        ToastGame.getCamera().unproject(in);
+        screenX=(int)in.x;
+        screenY=(int)in.y;
         touchOffset = screenY - lever.getY()+3;
         return false;
     }
@@ -42,7 +42,10 @@ public class ToasterInputAdapter extends InputAdapter {
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (done){return true;}
-        screenY=convertToYUp(screenY);
+        Vector3 in = new Vector3(screenX, screenY, 0);
+        ToastGame.getCamera().unproject(in);
+        screenX=(int)in.x;
+        screenY=(int)in.y;
         if (lever.getBoundingRectangle().contains(screenX, screenY)) {
             if (screenY-touchOffset<leverBotom) {
                 done = true;
