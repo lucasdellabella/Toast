@@ -63,7 +63,7 @@ public class MainMenuScreen implements Screen {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fatpen" +
                 ".ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 36;
+        parameter.size = 100;
         parameter.borderColor = Color.BLACK;
         parameter.borderWidth = 3;
         font = generator.generateFont(parameter);
@@ -104,8 +104,8 @@ public class MainMenuScreen implements Screen {
 
         font.draw(game.getBatch(),
                 "Toast" ,
-                ToastGame.getCamera().viewportWidth / 3,
-                ToastGame.getCamera().viewportHeight * 13 / 14);
+                ToastGame.getCamera().viewportWidth / 6,
+                ToastGame.getCamera().viewportHeight * 12 / 14);
         ToastGame.getBatch().end();
 
         stage.act(delta);

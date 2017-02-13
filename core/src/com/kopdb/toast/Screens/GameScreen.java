@@ -112,7 +112,7 @@ public class GameScreen implements Screen {
             // Remove any toast that runs off the screen
             if (curPos.y / ToastGame.BOX_2D_SCALE
                     + current.getSprite().getHeight() < REMOVE_TOAST_THRESHOLD
-                    || curPos.x / ToastGame.BOX_2D_SCALE > game.getViewport().getScreenWidth()
+                    || curPos.x / ToastGame.BOX_2D_SCALE > ToastGame.getCamera().viewportWidth
                     || curPos.x / ToastGame.BOX_2D_SCALE < - current.getSprite().getWidth()) {
                 current.dispose();
                 toasts.removeIndex(i);
