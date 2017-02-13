@@ -13,13 +13,11 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kopdb.toast.Screens.MainMenuScreen;
 
-import javax.swing.text.View;
-
 public class ToastGame extends Game {
 	public static float BOX_2D_SCALE = 0.01f;//Multiply going in divide going out
     public static ObjectMap<String, Texture> typeTextures = new ObjectMap<>();
-	public static ObjectMap<String, Sound> typeTouchSounds = new ObjectMap<>();
-	public static ObjectMap<String, Sound> typeFlickSounds = new ObjectMap<>();
+	public static ObjectMap<String, Sound> touchSounds = new ObjectMap<>();
+	public static ObjectMap<String, Sound> flickSounds = new ObjectMap<>();
 	private static SpriteBatch batch;
 	private static World world;
 	private static OrthographicCamera camera;
@@ -49,25 +47,32 @@ public class ToastGame extends Game {
 		typeTextures.put("sad", new Texture(Gdx.files.internal("Toasts/SadToast.png")));
 		typeTextures.put("worried", new Texture(Gdx.files.internal("Toasts/WorriedToast.png")));
 
-		// Fill in typeTouchSounds map
-		typeTouchSounds.put("stache", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
-		typeTouchSounds.put("happy", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
-		typeTouchSounds.put("chef", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
-		typeTouchSounds.put("explorer", Gdx.audio.newSound(Gdx.files.internal("audio/explorertouch.wav")));
-		typeTouchSounds.put("angry", Gdx.audio.newSound(Gdx.files.internal("audio/explorertouch.wav")));
-		typeTouchSounds.put("jelly", Gdx.audio.newSound(Gdx.files.internal("audio/explorertouch.wav")));
-		typeTouchSounds.put("sad", Gdx.audio.newSound(Gdx.files.internal("audio/explorertouch.wav")));
-		typeTouchSounds.put("worried", Gdx.audio.newSound(Gdx.files.internal("audio/explorertouch.wav")));
+		// Fill in touchSounds map
+		touchSounds.put("stache", Gdx.audio.newSound(Gdx.files.internal("audio/stachetouch" +
+				".wav")));
+		touchSounds.put("happy", Gdx.audio.newSound(Gdx.files.internal("audio/happytouch" +
+				".wav")));
+		touchSounds.put("chef", Gdx.audio.newSound(Gdx.files.internal("audio/cheftouch.wav")));
+		touchSounds.put("explorer", Gdx.audio.newSound(Gdx.files.internal("audio/explorertouch.wav")));
+		touchSounds.put("angry", Gdx.audio.newSound(Gdx.files.internal("audio/angrytouch" +
+				".wav")));
+		touchSounds.put("jelly", Gdx.audio.newSound(Gdx.files.internal("audio/jellytouch" +
+				".wav")));
+		touchSounds.put("sad", Gdx.audio.newSound(Gdx.files.internal("audio/sadtouch.wav")));
+		touchSounds.put("worried", Gdx.audio.newSound(Gdx.files.internal("audio/worriedtouch" +
+				".wav")));
 
-		// Fill in typeFlickSounds map
-		typeFlickSounds.put("stache", Gdx.audio.newSound(Gdx.files.internal("audio/sadflick.wav")));
-		typeFlickSounds.put("happy", Gdx.audio.newSound(Gdx.files.internal("audio/sadflick.wav")));
-		typeFlickSounds.put("chef", Gdx.audio.newSound(Gdx.files.internal("audio/chefflick.wav")));
-		typeFlickSounds.put("explorer", Gdx.audio.newSound(Gdx.files.internal("audio/explorerflick.wav")));
-		typeFlickSounds.put("angry", Gdx.audio.newSound(Gdx.files.internal("audio/chefflick.wav")));
-		typeFlickSounds.put("jelly", Gdx.audio.newSound(Gdx.files.internal("audio/chefflick.wav")));
-		typeFlickSounds.put("sad", Gdx.audio.newSound(Gdx.files.internal("audio/chefflick.wav")));
-		typeFlickSounds.put("worried", Gdx.audio.newSound(Gdx.files.internal("audio/chefflick.wav")));
+		// Fill in flickSounds map
+		flickSounds.put("stache", Gdx.audio.newSound(Gdx.files.internal("audio/stacheflick" +
+				".wav")));
+		flickSounds.put("happy", Gdx.audio.newSound(Gdx.files.internal("audio/happyflick.wav")));
+		flickSounds.put("chef", Gdx.audio.newSound(Gdx.files.internal("audio/chefflick.wav")));
+		flickSounds.put("explorer", Gdx.audio.newSound(Gdx.files.internal("audio/explorerflick.wav")));
+		flickSounds.put("angry", Gdx.audio.newSound(Gdx.files.internal("audio/angryflick.wav")));
+		flickSounds.put("jelly", Gdx.audio.newSound(Gdx.files.internal("audio/jellyflick.wav")));
+		flickSounds.put("sad", Gdx.audio.newSound(Gdx.files.internal("audio/sadflick.wav")));
+		flickSounds.put("worried", Gdx.audio.newSound(Gdx.files.internal("audio/worriedflick" +
+				".wav")));
 
 		this.setScreen(new MainMenuScreen(this));
 	}

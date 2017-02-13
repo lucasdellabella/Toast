@@ -1,6 +1,5 @@
 package com.kopdb.toast;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -35,8 +34,8 @@ public class Toast implements Disposable
 
         type = toastType;
         sprite = new Sprite(ToastGame.typeTextures.get(toastType));
-        touchSound = ToastGame.typeTouchSounds.get(toastType);
-        flickSound = ToastGame.typeFlickSounds.get(toastType);
+        touchSound = ToastGame.touchSounds.get(toastType);
+        flickSound = ToastGame.flickSounds.get(toastType);
 
         float scaleFactor = 0.11f;
 //        if (!toastType.equals("white")) {
