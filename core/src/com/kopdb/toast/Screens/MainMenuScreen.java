@@ -25,6 +25,7 @@ public class MainMenuScreen implements Screen {
     Button playButton;
     Sprite toaster;
     Sprite toasterLever;
+    Sprite title;
 
     private BitmapFont font;
     private final Texture gameBackgroundImage;
@@ -55,6 +56,11 @@ public class MainMenuScreen implements Screen {
         float toasterLeverAspect = 192f/517f;
         toasterLever.setSize(toaster.getWidth()*0.6f, toaster.getWidth()*0.4f*toasterLeverAspect);
         toasterLever.setPosition(toaster.getWidth()*0.2f+toaster.getX(),toasterHeight*0.7f+toaster.getY());
+
+        title = new Sprite(new Texture(Gdx.files.internal("title.png")));
+        float titleAspect = title.getHeight()/title.getWidth();
+        title.setSize(ToastGame.getCamera().viewportWidth*0.8f, ToastGame.getCamera().viewportWidth*0.8f*titleAspect);
+        title.setPosition(ToastGame.getCamera().viewportWidth*0.1f, ToastGame.getCamera().viewportHeight*0.8f);
 
         // Use stage as input processor
         Gdx.input.setInputProcessor(stage);
@@ -102,10 +108,8 @@ public class MainMenuScreen implements Screen {
         toaster.draw(ToastGame.getBatch());
         toasterLever.draw(ToastGame.getBatch());
 
-        font.draw(game.getBatch(),
-                "Toast" ,
-                ToastGame.getCamera().viewportWidth / 6,
-                ToastGame.getCamera().viewportHeight * 12 / 14);
+        title.draw(ToastGame.getBatch());
+
         ToastGame.getBatch().end();
 
         stage.act(delta);
