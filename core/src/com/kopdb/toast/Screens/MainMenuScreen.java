@@ -25,6 +25,7 @@ public class MainMenuScreen implements Screen {
     Button playButton;
     Sprite toaster;
     Sprite toasterLever;
+    Sprite title;
 
     private BitmapFont font;
     private final Texture gameBackgroundImage;
@@ -56,6 +57,11 @@ public class MainMenuScreen implements Screen {
         toasterLever.setSize(toaster.getWidth()*0.6f, toaster.getWidth()*0.4f*toasterLeverAspect);
         toasterLever.setPosition(toaster.getWidth()*0.2f+toaster.getX(),toasterHeight*0.7f+toaster.getY());
 
+        title = new Sprite(new Texture(Gdx.files.internal("title.png")));
+        float titleAspect = title.getHeight()/title.getWidth();
+        title.setSize(ToastGame.getCamera().viewportWidth*0.8f, ToastGame.getCamera().viewportWidth*0.8f*titleAspect);
+        title.setPosition(ToastGame.getCamera().viewportWidth*0.1f, ToastGame.getCamera().viewportHeight*0.8f);
+
         // Use stage as input processor
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setInputProcessor(new ToasterInputAdapter(this, toasterLever, toasterLever.getY(), toasterHeight*0.4f+toaster.getY()));
@@ -63,7 +69,7 @@ public class MainMenuScreen implements Screen {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fatpen" +
                 ".ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 36;
+        parameter.size = 100;
         parameter.borderColor = Color.BLACK;
         parameter.borderWidth = 3;
         font = generator.generateFont(parameter);
@@ -102,10 +108,8 @@ public class MainMenuScreen implements Screen {
         toaster.draw(ToastGame.getBatch());
         toasterLever.draw(ToastGame.getBatch());
 
-        font.draw(game.getBatch(),
-                "Toast" ,
-                ToastGame.getCamera().viewportWidth / 3,
-                ToastGame.getCamera().viewportHeight * 13 / 14);
+        title.draw(ToastGame.getBatch());
+
         ToastGame.getBatch().end();
 
         stage.act(delta);
