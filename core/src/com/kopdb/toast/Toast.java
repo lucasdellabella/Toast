@@ -78,7 +78,7 @@ public class Toast implements Disposable
     public void update() {
         if (moveTarget != null) {
             lastPosition = body.getPosition().cpy();
-            newPos = body.getPosition().add(new Vector2((moveTarget.x - body.getPosition().x) * 0.2f,
+            newPos = body.getPosition().add(new Vector2((moveTarget.x - body.getPosition().x) * 0.35f,
                     (moveTarget.y - body.getPosition().y) * 0.2f)) ;
             body.setTransform(newPos.x, newPos.y, body.getAngle());
         }

@@ -26,6 +26,7 @@ public class MainMenuScreen implements Screen {
     Sprite toaster;
     Sprite toasterLever;
     Sprite title;
+    Sprite arrow;
 
     private BitmapFont font;
     private final Texture gameBackgroundImage;
@@ -57,10 +58,17 @@ public class MainMenuScreen implements Screen {
         toasterLever.setSize(toaster.getWidth()*0.6f, toaster.getWidth()*0.4f*toasterLeverAspect);
         toasterLever.setPosition(toaster.getWidth()*0.2f+toaster.getX(),toasterHeight*0.7f+toaster.getY());
 
+        arrow = new Sprite(new Texture(Gdx.files.internal("arrow.png")));
+        arrow.setSize(arrow.getWidth() * 0.2f, arrow.getHeight() * 0.2f);
+        arrow.setPosition(toaster.getX() + toaster.getWidth() / 2 - arrow.getWidth() / 2,
+                toaster.getY() + toaster.getHeight() * (5f / 8) - arrow.getHeight());
+
         title = new Sprite(new Texture(Gdx.files.internal("title.png")));
         float titleAspect = title.getHeight()/title.getWidth();
         title.setSize(ToastGame.getCamera().viewportWidth*0.8f, ToastGame.getCamera().viewportWidth*0.8f*titleAspect);
-        title.setPosition(ToastGame.getCamera().viewportWidth*0.1f, ToastGame.getCamera().viewportHeight*0.8f);
+        title.setPosition(ToastGame.getCamera().viewportWidth*0.1f,
+                ToastGame.getCamera().viewportHeight*0.75f);
+
 
         // Use stage as input processor
         Gdx.input.setInputProcessor(stage);
@@ -92,8 +100,8 @@ public class MainMenuScreen implements Screen {
         camDiff.scl(0.06f);
         ToastGame.getCamera().translate(camDiff);
 
-        Gdx.gl.glClearColor(1, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//        Gdx.gl.glClearColor(1, 0, 0, 1);
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         ToastGame.getCamera().update();
         ToastGame.getBatch().setProjectionMatrix(ToastGame.getCamera().combined);
@@ -106,6 +114,7 @@ public class MainMenuScreen implements Screen {
                 0, 0,
                 ToastGame.getCamera().viewportWidth, menuBackgroundHeight);
         toaster.draw(ToastGame.getBatch());
+        arrow.draw(ToastGame.getBatch());
         toasterLever.draw(ToastGame.getBatch());
 
         title.draw(ToastGame.getBatch());
