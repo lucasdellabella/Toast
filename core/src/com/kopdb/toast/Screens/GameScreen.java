@@ -160,7 +160,7 @@ public class GameScreen implements Screen {
 
         switch (randInt) {
             case 0:
-                toastType = "stash";
+                toastType = "stache";
                 break;
             case 1:
                 toastType = "happy";
