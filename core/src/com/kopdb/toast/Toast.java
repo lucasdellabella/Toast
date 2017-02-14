@@ -30,6 +30,8 @@ public class Toast implements Disposable
     private Sound flickSound;
     private boolean flicked = false;
 
+    private int tmpCnt = 0;
+
 
     public Toast(String toastType) {
 
@@ -107,6 +109,7 @@ public class Toast implements Disposable
             body.setLinearVelocity(0, 0);
             body.setType(BodyDef.BodyType.KinematicBody);
             touchSound.play();
+            tmpCnt += 1;
         }
     }
 
@@ -143,6 +146,7 @@ public class Toast implements Disposable
             moveTarget.scl(ToastGame.BOX_2D_SCALE);
             lastTouchTime = touchTime;
             touchTime = System.currentTimeMillis();
+            tmpCnt += 1;
         } else {
             checkTouchDown(x, y);
         }

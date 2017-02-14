@@ -1,11 +1,9 @@
 package com.kopdb.toast.Input;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.kopdb.toast.Screens.MainMenuScreen;
 import com.kopdb.toast.ToastGame;
 
@@ -18,15 +16,16 @@ public class ToasterInputAdapter extends InputAdapter {
     MainMenuScreen mainMenu;
     Sprite lever;
     float leverTop;
-    float leverBotom;
+    float leverBottom;
     float touchOffset;
     boolean done=false;
+    boolean draggingLever = false;
 
     public ToasterInputAdapter(MainMenuScreen menu, Sprite toasterLever, float top, float bottom) {
         mainMenu = menu;
         lever = toasterLever;
-        leverTop=top;
-        leverBotom=bottom;
+        leverTop = top;
+        leverBottom = bottom;
     }
 
     @Override
@@ -35,29 +34,58 @@ public class ToasterInputAdapter extends InputAdapter {
         ToastGame.getCamera().unproject(in);
         screenX=(int)in.x;
         screenY=(int)in.y;
-        touchOffset = screenY - lever.getY()+3;
+        touchOffset = screenY - lever.getY();
+
+        if (lever.getBoundingRectangle().contains(screenX, screenY)) {
+            draggingLever = true;
+        }
+
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if (done){return true;}
         Vector3 in = new Vector3(screenX, screenY, 0);
         ToastGame.getCamera().unproject(in);
-        screenX=(int)in.x;
         screenY=(int)in.y;
-        if (lever.getBoundingRectangle().contains(screenX, screenY)) {
-            if (screenY-touchOffset<leverBotom) {
-                done = true;
+        float offsetY = screenY - touchOffset;
+
+        // If the lever is being touched, move it
+        if (draggingLever) {
+            if (offsetY > leverTop) {
+                lever.setY(leverTop);
+            } else if (offsetY < leverBottom) {
+                lever.setY(leverBottom);
                 mainMenu.toasterSwitchSet();
-                return true;
+            } else {
+                lever.setY(offsetY);
             }
-            if (screenY-touchOffset>leverTop) {
-                return true;
-            }
-            lever.setPosition(lever.getX(),screenY-touchOffset);
         }
 
-        return true;
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        draggingLever = false;
+        return false;
     }
 }
+//if (done){return true;}
+//        Vector3 in = new Vector3(screenX, screenY, 0);
+//        ToastGame.getCamera().unproject(in);
+//        screenX=(int)in.x;
+//        screenY=(int)in.y;
+//        if (lever.getBoundingRectangle().contains(screenX, screenY)) {
+//        if (screenY-touchOffset< leverBottom) {
+//        done = true;
+//        mainMenu.toasterSwitchSet();
+//        return true;
+//        }
+//        if (screenY-touchOffset>leverTop) {
+//        return true;
+//        }
+//        lever.setPosition(lever.getX(),screenY-touchOffset);
+//        }
+//
+//        return true;
