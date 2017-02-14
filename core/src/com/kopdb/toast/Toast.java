@@ -41,9 +41,6 @@ public class Toast implements Disposable
         flickSound = ToastGame.flickSounds.get(toastType);
 
         float scaleFactor = 0.125f;
-//        if (!toastType.equals("white")) {
-//            scaleFactor /= 3;
-//        }
 
         sprite.setSize(sprite.getWidth() * scaleFactor, sprite.getHeight() * scaleFactor);
         origin = new Vector2(sprite.getWidth() / 2, sprite.getHeight() / 2);

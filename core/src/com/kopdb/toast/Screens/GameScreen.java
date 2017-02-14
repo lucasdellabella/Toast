@@ -59,7 +59,14 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
+        ToastGame.getCamera().position.set(ToastGame.getCamera().viewportWidth / 2, ToastGame.getCamera().viewportHeight / 2, 0);
+        ToastGame.getBatch().begin();
+        ToastGame.getBatch().draw(backgroundImage,
+                0,
+                0,
+                ToastGame.getCamera().viewportWidth,
+                ToastGame.getCamera().viewportHeight);
+        ToastGame.getBatch().end();
     }
 
     @Override
@@ -72,8 +79,10 @@ public class GameScreen implements Screen {
 
         ToastGame.getBatch().begin();
         ToastGame.getBatch().draw(backgroundImage,
-                0, 0,
-                ToastGame.getCamera().viewportWidth, ToastGame.getCamera().viewportHeight);
+                0,
+                0,
+                ToastGame.getCamera().viewportWidth,
+                ToastGame.getCamera().viewportHeight);
         for (int i = 0; i < toasts.size; i++) {
             toasts.get(i).draw(ToastGame.getBatch());
         }
@@ -123,7 +132,6 @@ public class GameScreen implements Screen {
             }
         }
         if (clean) {
-            ToastGame.getCamera().position.set(ToastGame.getCamera().viewportWidth / 2, ToastGame.getCamera().viewportHeight / 2, 0);
             clean = false;
         }
     }

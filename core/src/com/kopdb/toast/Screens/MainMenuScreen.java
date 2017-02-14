@@ -3,14 +3,11 @@ package com.kopdb.toast.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.kopdb.toast.Input.ToasterInputAdapter;
 import com.kopdb.toast.ToastGame;
 
@@ -21,8 +18,6 @@ import com.kopdb.toast.ToastGame;
 public class MainMenuScreen implements Screen {
 
     private final ToastGame game;
-    private Stage stage;
-    Button playButton;
     Sprite toaster;
     Sprite toasterLever;
     Sprite title;
@@ -40,7 +35,6 @@ public class MainMenuScreen implements Screen {
 
     public MainMenuScreen(ToastGame game) {
         this.game = game;
-        stage = new Stage(game.getViewport());
 
         gameBackgroundImage = new Texture(Gdx.files.internal("sky.png"));
         menuBackgroundImage = new Texture(Gdx.files.internal("mainmenu.png"));
@@ -71,7 +65,6 @@ public class MainMenuScreen implements Screen {
 
 
         // Use stage as input processor
-        Gdx.input.setInputProcessor(stage);
         Gdx.input.setInputProcessor(new ToasterInputAdapter(this, toasterLever, toasterLever.getY(), toasterHeight*0.4f+toaster.getY()));
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fatpen" +
@@ -96,6 +89,7 @@ public class MainMenuScreen implements Screen {
         {
             switchToGameScreen();
             startGame = false;
+            return;
         }
         camDiff.scl(0.06f);
         ToastGame.getCamera().translate(camDiff);
@@ -106,13 +100,16 @@ public class MainMenuScreen implements Screen {
         ToastGame.getCamera().update();
         ToastGame.getBatch().setProjectionMatrix(ToastGame.getCamera().combined);
         ToastGame.getBatch().begin();
-        //stage.draw();
         ToastGame.getBatch().draw(gameBackgroundImage,
-                0, menuBackgroundHeight,
-                ToastGame.getCamera().viewportWidth, ToastGame.getCamera().viewportHeight);
+                0,
+                menuBackgroundHeight,
+                ToastGame.getCamera().viewportWidth,
+                ToastGame.getCamera().viewportHeight);
         ToastGame.getBatch().draw(menuBackgroundImage,
-                0, 0,
-                ToastGame.getCamera().viewportWidth, menuBackgroundHeight);
+                0,
+                0,
+                ToastGame.getCamera().viewportWidth,
+                menuBackgroundHeight);
         toaster.draw(ToastGame.getBatch());
         arrow.draw(ToastGame.getBatch());
         toasterLever.draw(ToastGame.getBatch());
@@ -120,8 +117,6 @@ public class MainMenuScreen implements Screen {
         title.draw(ToastGame.getBatch());
 
         ToastGame.getBatch().end();
-
-        stage.act(delta);
     }
 
     public void toasterSwitchSet()
