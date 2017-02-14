@@ -32,7 +32,11 @@ public class ToastInputAdapter extends InputAdapter {
         screenX=(int)in.x;
         screenY=(int)in.y;
         for (Toast toast: toastArray) {
-            toast.checkTouchDown(screenX, screenY);
+            boolean touched = toast.checkTouchDown(screenX, screenY);
+            if (touched) {
+                draggingToast = toast;
+                return true;
+            }
         }
         return false;
     }
@@ -44,9 +48,7 @@ public class ToastInputAdapter extends InputAdapter {
         ToastGame.getCamera().unproject(in);
         screenX=(int)in.x;
         screenY=(int)in.y;
-        for (Toast toast: toastArray) {
-            toast.checkTouchUp(screenX, screenY);
-        }
+        draggingToast.checkTouchUp(screenX, screenY);
         return true;
     }
 
@@ -56,9 +58,7 @@ public class ToastInputAdapter extends InputAdapter {
         ToastGame.getCamera().unproject(in);
         screenX=(int)in.x;
         screenY=(int)in.y;
-        for (Toast toast: toastArray) {
-            toast.checkTouchDragged(screenX, screenY);
-        }
+        draggingToast.checkTouchDragged(screenX, screenY);
         return true;
     }
 

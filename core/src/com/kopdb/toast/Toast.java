@@ -92,8 +92,9 @@ public class Toast implements Disposable
         sprite.draw(batch);
     }
 
-    public void checkTouchDown(int x, int y) {
-        if (sprite.getBoundingRectangle().contains(x, y)) {
+    public boolean checkTouchDown(int x, int y) {
+        boolean toastTouched = sprite.getBoundingRectangle().contains(x, y);
+        if (toastTouched) {
             // save x & y relative bottom left corner of body
             touchOffset = body.getPosition().cpy().scl(1 / ToastGame.BOX_2D_SCALE).sub(x, y);
             // where we want the toast to move to
@@ -108,6 +109,8 @@ public class Toast implements Disposable
             touchSound.play();
             tmpCnt += 1;
         }
+
+        return toastTouched;
     }
 
     // TODO: use pointers to handle drag off and release?
