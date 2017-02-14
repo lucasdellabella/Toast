@@ -28,6 +28,7 @@ public class Toast implements Disposable
     private String type;
     private Sound touchSound;
     private Sound flickSound;
+    private boolean flicked = false;
 
 
     public Toast(String toastType) {
@@ -37,7 +38,7 @@ public class Toast implements Disposable
         touchSound = ToastGame.touchSounds.get(toastType);
         flickSound = ToastGame.flickSounds.get(toastType);
 
-        float scaleFactor = 0.11f;
+        float scaleFactor = 0.125f;
 //        if (!toastType.equals("white")) {
 //            scaleFactor /= 3;
 //        }
@@ -78,7 +79,7 @@ public class Toast implements Disposable
     public void update() {
         if (moveTarget != null) {
             lastPosition = body.getPosition().cpy();
-            newPos = body.getPosition().add(new Vector2((moveTarget.x - body.getPosition().x) * 0.35f,
+            newPos = body.getPosition().add(new Vector2((moveTarget.x - body.getPosition().x) * 0.6f,
                     (moveTarget.y - body.getPosition().y) * 0.2f)) ;
             body.setTransform(newPos.x, newPos.y, body.getAngle());
         }
@@ -126,6 +127,7 @@ public class Toast implements Disposable
 
             // decide whether the release counted as a flick
             if (velocity.len2() >= FLICK_THRESHOLD) {
+                flicked = true;
                 touchSound.stop();
                 flickSound.play();
             }
@@ -141,7 +143,10 @@ public class Toast implements Disposable
             moveTarget.scl(ToastGame.BOX_2D_SCALE);
             lastTouchTime = touchTime;
             touchTime = System.currentTimeMillis();
+        } else {
+            checkTouchDown(x, y);
         }
+
     }
 
     public Sprite getSprite() {
@@ -172,5 +177,9 @@ public class Toast implements Disposable
 
     public String getType() {
         return type;
+    }
+
+    public boolean isFlicked() {
+        return flicked;
     }
 }

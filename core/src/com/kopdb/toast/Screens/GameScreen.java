@@ -116,8 +116,10 @@ public class GameScreen implements Screen {
                     || curPos.x / ToastGame.BOX_2D_SCALE < - current.getSprite().getWidth()) {
                 current.dispose();
                 toasts.removeIndex(i);
-                flickCountByType.getAndIncrement(current.getType(), 0, 1);
-                totalFlickCount += 1;
+                if (current.isFlicked()) {
+                    flickCountByType.getAndIncrement(current.getType(), 0, 1);
+                    totalFlickCount += 1;
+                }
             }
         }
         if (clean) {
