@@ -1,8 +1,10 @@
 package com.kopdb.toast.Screens;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,6 +29,7 @@ public class GameScreen implements Screen {
     private final int NUM_UNIQUE_TOASTS = 8;
     private final ToastGame game;
     private final Texture backgroundImage;
+    private final Music backgroundMusic;
     private BitmapFont font;
     private Array<Toast> toasts;
     private ObjectIntMap<String> flickCountByType;
@@ -40,6 +43,8 @@ public class GameScreen implements Screen {
     {
         this.game = game;
         backgroundImage = new Texture(Gdx.files.internal("sky.png"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/Poppers and Prosecco.mp3"));
+        backgroundMusic.setVolume(0.2f);
 
         toasts = new Array<Toast>();
         flickCountByType = new ObjectIntMap<>();
@@ -67,6 +72,7 @@ public class GameScreen implements Screen {
                 ToastGame.getCamera().viewportWidth,
                 ToastGame.getCamera().viewportHeight);
         ToastGame.getBatch().end();
+        backgroundMusic.play();
     }
 
     @Override
