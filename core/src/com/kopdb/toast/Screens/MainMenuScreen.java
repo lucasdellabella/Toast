@@ -23,7 +23,6 @@ public class MainMenuScreen implements Screen {
     Sprite title;
     Sprite arrow;
 
-    private BitmapFont font;
     private final Texture gameBackgroundImage;
     private final Texture menuBackgroundImage;
     private final float menuBackgroundAspect;
@@ -41,22 +40,26 @@ public class MainMenuScreen implements Screen {
         menuBackgroundAspect = (float)menuBackgroundImage.getHeight()/(float)menuBackgroundImage.getWidth();
         menuBackgroundHeight = ToastGame.getCamera().viewportWidth*menuBackgroundAspect;
 
+        // Position toaster
         toaster = new Sprite(new Texture(Gdx.files.internal("Toaster.png")));
         float toasterAspect = 1574f/2048f;
         toasterHeight = toasterAspect*ToastGame.getCamera().viewportWidth*0.8f;
         toaster.setSize(ToastGame.getCamera().viewportWidth*0.8f, toasterHeight);
         toaster.setPosition(ToastGame.getCamera().viewportWidth*0.1f,80);
 
+        // Position lever
         toasterLever = new Sprite(new Texture(Gdx.files.internal("ToasterLever.png")));
         float toasterLeverAspect = 192f/517f;
         toasterLever.setSize(toaster.getWidth()*0.6f, toaster.getWidth()*0.4f*toasterLeverAspect);
         toasterLever.setPosition(toaster.getWidth()*0.2f+toaster.getX(),toasterHeight*0.7f+toaster.getY());
 
+        // Position arrow
         arrow = new Sprite(new Texture(Gdx.files.internal("arrow.png")));
         arrow.setSize(arrow.getWidth() * 0.2f, arrow.getHeight() * 0.2f);
         arrow.setPosition(toaster.getX() + toaster.getWidth() / 2 - arrow.getWidth() / 2,
                 toaster.getY() + toaster.getHeight() * (5f / 8) - arrow.getHeight());
 
+        // Position title
         title = new Sprite(new Texture(Gdx.files.internal("title.png")));
         float titleAspect = title.getHeight()/title.getWidth();
         title.setSize(ToastGame.getCamera().viewportWidth*0.8f, ToastGame.getCamera().viewportWidth*0.8f*titleAspect);
@@ -66,14 +69,6 @@ public class MainMenuScreen implements Screen {
 
         // Use stage as input processor
         Gdx.input.setInputProcessor(new ToasterInputAdapter(this, toasterLever, toasterLever.getY(), toasterHeight*0.4f+toaster.getY()));
-
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fatpen" +
-                ".ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 100;
-        parameter.borderColor = Color.BLACK;
-        parameter.borderWidth = 3;
-        font = generator.generateFont(parameter);
     }
 
     @Override
@@ -85,13 +80,20 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         //tweens camera to target and launches game if the camera reached the target and the game is meant to launch
         Vector2 camDiff = camTarget.cpy().sub(ToastGame.getCamera().position.x, ToastGame.getCamera().position.y);
-        if (startGame && camDiff.len()<2)
+        if (startGame && camDiff.len() <= 0.1)
         {
             switchToGameScreen();
             startGame = false;
             return;
         }
-        camDiff.scl(0.06f);
+
+        // switch to a constant speed at some point
+        if (camDiff.len() <= 10) {
+            camDiff.scl(0.1f);
+        } else {
+            camDiff.scl(0.06f);
+        }
+
         ToastGame.getCamera().translate(camDiff);
 
 //        Gdx.gl.glClearColor(1, 0, 0, 1);

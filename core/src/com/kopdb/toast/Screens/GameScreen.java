@@ -137,9 +137,6 @@ public class GameScreen implements Screen {
                 }
             }
         }
-        if (clean) {
-            clean = false;
-        }
     }
 
     @Override
