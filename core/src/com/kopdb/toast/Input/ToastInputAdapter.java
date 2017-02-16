@@ -48,7 +48,7 @@ public class ToastInputAdapter extends InputAdapter {
         ToastGame.getCamera().unproject(in);
         screenX=(int)in.x;
         screenY=(int)in.y;
-        draggingToast.checkTouchUp(screenX, screenY);
+        if (draggingToast != null) { draggingToast.checkTouchUp(screenX, screenY); }
         return true;
     }
 
@@ -58,7 +58,7 @@ public class ToastInputAdapter extends InputAdapter {
         ToastGame.getCamera().unproject(in);
         screenX=(int)in.x;
         screenY=(int)in.y;
-        draggingToast.checkTouchDragged(screenX, screenY);
+        if (draggingToast != null) { draggingToast.checkTouchDragged(screenX, screenY); }
         return true;
     }
 
