@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.kopdb.toast.Input.ToasterInputAdapter;
 import com.kopdb.toast.ToastGame;
 
@@ -18,6 +19,7 @@ import com.kopdb.toast.ToastGame;
 public class MainMenuScreen implements Screen {
 
     private final ToastGame game;
+    private Stage stage;
     Sprite toaster;
     Sprite toasterLever;
     Sprite title;
@@ -34,6 +36,7 @@ public class MainMenuScreen implements Screen {
 
     public MainMenuScreen(ToastGame game) {
         this.game = game;
+        stage = new Stage(game.getViewport());
 
         gameBackgroundImage = new Texture(Gdx.files.internal("sky.png"));
         menuBackgroundImage = new Texture(Gdx.files.internal("mainmenu.png"));
@@ -68,6 +71,7 @@ public class MainMenuScreen implements Screen {
 
 
         // Use stage as input processor
+        Gdx.input.setInputProcessor(stage);
         Gdx.input.setInputProcessor(new ToasterInputAdapter(this, toasterLever, toasterLever.getY(), toasterHeight*0.4f+toaster.getY()));
     }
 
@@ -119,6 +123,7 @@ public class MainMenuScreen implements Screen {
         title.draw(ToastGame.getBatch());
 
         ToastGame.getBatch().end();
+        stage.act(delta);
     }
 
     public void toasterSwitchSet()
