@@ -25,7 +25,7 @@ import com.kopdb.toast.Input.ToastInputAdapter;
 
 public class GameScreen implements Screen {
 
-    private final float REMOVE_TOAST_THRESHOLD = 0;
+    private final float REMOVE_TOAST_THRESHOLD = - 0.1f;
     private final int NUM_UNIQUE_TOASTS = 8;
     private final ToastGame game;
     private final Texture backgroundImage;
@@ -35,6 +35,7 @@ public class GameScreen implements Screen {
     private ObjectIntMap<String> flickCountByType;
     private float timeToNextToast = 0;
     private int totalFlickCount = 0;
+    private int ctr = 0;
     private boolean clean = true;
 
     public GameScreen(ToastGame game)
