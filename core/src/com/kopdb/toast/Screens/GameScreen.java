@@ -35,9 +35,7 @@ public class GameScreen implements Screen {
     private ObjectIntMap<String> flickCountByType;
     private float timeToNextToast = 0;
     private int totalFlickCount = 0;
-    private boolean clean = true;//used to do inits that need to happen after the first render
-    //Box2DDebugRenderer debugRenderer;
-
+    private boolean clean = true;
 
     public GameScreen(ToastGame game)
     {
@@ -65,13 +63,13 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         ToastGame.getCamera().position.set(ToastGame.getCamera().viewportWidth / 2, ToastGame.getCamera().viewportHeight / 2, 0);
-        ToastGame.getBatch().begin();
-        ToastGame.getBatch().draw(backgroundImage,
-                0,
-                0,
-                ToastGame.getCamera().viewportWidth,
-                ToastGame.getCamera().viewportHeight);
-        ToastGame.getBatch().end();
+//        ToastGame.getBatch().begin();
+//        ToastGame.getBatch().draw(backgroundImage,
+//                0,
+//                0,
+//                ToastGame.getCamera().viewportWidth,
+//                ToastGame.getCamera().viewportHeight);
+//        ToastGame.getBatch().end();
         backgroundMusic.play();
     }
 
